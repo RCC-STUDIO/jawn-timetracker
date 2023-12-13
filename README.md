@@ -36,7 +36,6 @@
     -------------------------------------------------------------------------------
     1. Install react/node with `npm install`
     2. Install next-auth with `npm install next-auth`
-    3. Install react-navigation/native npm install @react-navigation/native
     3A. Install prsim with `npm install prisma`
     3B. Install npm install `@prisma/client`
     4. Install `npm add bcrypt`
