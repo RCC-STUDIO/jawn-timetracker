@@ -31,6 +31,7 @@ export default function Home() {
   ]
 
   return (
+    
     <main className="flex flex-col items-center justify-between p-24">
       <h1 className="p-5">My Shifts</h1>
       <div className="flex flex-col items-center bg-slate-800 border-w w-1/2 p-5 rounded-lg">
