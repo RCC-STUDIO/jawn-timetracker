@@ -9,18 +9,18 @@
 
 ### Copywrite & License Information
 
-© J.A.W.N Group Corperation 2023-2024
+© J.A.W.N Group Corporation 2023-2024
 
 Apache License 2.0 (2004)
 Refer to the LICENSE file for more information.
 
 ### Contributors
-J.A.W.N Group Corperation::
+J.A.W.N Group Corporation::
 - Ryan Clarkson (RCC STUDIO)
 - Matthew Simms
-- Gabriel 
+- Gabriel Leclerc
 - Benjamin Roskey
-- Cyril 
+- Cyril Dizon
 
 
 ## Project Information/Documentation 
@@ -82,12 +82,18 @@ npm install @prisma/client
 ```bash
 npm install @next-auth/prisma-adapter
 ```
-9. Setup/Configure Prisma
-    0. ``` npx prisma init ```//Only if Prisma File does not exist
-    1. ``` npx prisma generate ```
-    2. ``` npx prisma db push ```
+9. Setup/Configure Prisma (Use First Command Only if the prisma file hasn't been created)
+```bash
+ npx prisma init
+ ```
+ ```bash
+ npx prisma generate
+```
+```
+npx prisma db push
+```
 
-10. Make Sure you create a .env.local file in the root directory and add the following code
+11. Make Sure you create a .env.local file in the root directory and add the following code
 ```markdown
 
 NEXTAUTH_URL=http://localhost:3000 
