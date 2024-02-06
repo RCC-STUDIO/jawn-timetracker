@@ -82,14 +82,18 @@ npm install @prisma/client
 ```bash
 npm install @next-auth/prisma-adapter
 ```
-9. Setup/Configure Prisma (Use First Command Only if the prisma file hasn't been created)
+9. Install Modal
+```bash
+npm install react-modal
+```
+10. Setup/Configure Prisma (Use First Command Only if the prisma file hasn't been created)
 ```bash
  npx prisma init
  ```
  ```bash
  npx prisma generate
 ```
-```
+```bash
 npx prisma db push
 ```
 
