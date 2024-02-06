@@ -47,13 +47,6 @@ export default function Home() {
               <p>Day Of Week: {shift.dayOfWeek}</p>
               <p>Department: {shift.department}</p>
             </div>
-            <Modal>
-              <div>
-                <p>
-                  testing
-                </p>
-              </div>
-            </Modal>
           </div>
         ))}
       </div>
