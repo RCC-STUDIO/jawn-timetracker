@@ -1,5 +1,5 @@
 import NavBar from "@/components/NavBar"
-import Modal from "@react-modal/libs/components/Modal";
+import Modal from 'react-modal';
 export default function Home() {
 
   const openModal = () => {
