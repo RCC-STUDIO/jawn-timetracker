@@ -37,7 +37,7 @@ export default function Home() {
       <h1 className="p-5 font-bold text-2xl">My Shifts</h1>
       <div className="flex flex-col items-center bg-blue-950 w-full p-5 rounded-lg">
         {shifts.map((shift) => (
-          <div className="flex flex-row border-2 rounded-lg w-full text-left p-4 m-2" key={shift.id}>
+          <div className="flex flex-row border-2 rounded-lg w-full text-left p-4 m-2 hover:bg-white hover:border-blue-950 hover:text-blue-950" key={shift.id}>
             <div className="flex flex-col w-full">
               <div className={shiftStyle}>
                   <h2>Type:</h2>
