@@ -1,4 +1,15 @@
+'use client'
+
+import ChangeEvent from "react";
+import { useState } from "react";
+
 export default function App() {
+  const [fileContent, setFileContent] = useState<string[][]>([])
+
+  const fileHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <div className="flex flex-col items-center p-10">
