@@ -18,6 +18,7 @@ export default function NavBar() {
                 <div className={buttonStyle}>
                     <a href="/profile">Profile</a>
                 </div>
+                
                 <div className={buttonStyle}>
                     <a href="/management">Managers</a>
                 </div>

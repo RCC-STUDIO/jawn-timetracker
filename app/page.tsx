@@ -1,5 +1,5 @@
 import NavBar from "@/components/NavBar"
-import Modal from 'react-modal';
+import ShiftRequest from './modals/ShiftRequest';
 export default function Home() {
   
   const shiftStyle = "flex flex row justify-between";
@@ -55,6 +55,8 @@ export default function Home() {
           </div>
         ))}
       </div>
+
+      <ShiftRequest/>
     </main>
   )
 }
