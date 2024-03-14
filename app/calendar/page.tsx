@@ -19,7 +19,7 @@ const CalendarPage = () => {
             <tbody>
               <tr>
                 {week.map((day, index) => (
-                  <td key={index} className="border font-bold text-center border-white text-xs p-3">
+                  <td key={index} className="border font-bold text-center border-white text-xs p-3 px-11">
                     <p>{day}</p>
                   </td>
                 ))}
