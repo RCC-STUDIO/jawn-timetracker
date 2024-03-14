@@ -1,6 +1,6 @@
 'use client'
 import NavBar from "@/components/NavBar"
-import ShiftRequest from './modals/ShiftRequest';
+import ShiftRequest from "@/components/modals/ShiftRequest";
 import { useState } from "react";
 
 export default function Home() {
