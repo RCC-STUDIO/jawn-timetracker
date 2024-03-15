@@ -2,13 +2,13 @@
 import React from "react"
 
 //Styles Variables
-const buttonStyle = "bg-slate-600 hover:bg-slate-700 text-white font-bold py-4 px-4 w-1/3 text-center"
+const buttonStyle = "bg-blue-950 hover:bg-blue-700 hover:text-blue-950 text-white p-5 w-full text-center"
 
 
 export default function NavBar() {
     return (
-        <footer>
-            <div className="bg-slate-600 text-white flex flex-row">
+        <footer className="">
+            <div className="flex flex-row text-xl text-white absolute bottom-0 left-0 w-full">
                 <div className={buttonStyle}>
                     <a href="/calendar">Calendar</a>
                 </div>
@@ -18,7 +18,6 @@ export default function NavBar() {
                 <div className={buttonStyle}>
                     <a href="/profile">Profile</a>
                 </div>
-
             </div>
         </footer>
     )

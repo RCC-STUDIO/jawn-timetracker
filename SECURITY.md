@@ -1,7 +1,7 @@
 # Security Policy
 
 ## Supported Versions:
-**Updated: Feb 27, 2024**
+**Updated: March 14, 2024**
 Use this section to tell people about which versions of your project are
 currently being supported with security updates.
 
@@ -10,10 +10,11 @@ currently being supported with security updates.
 | BUILD 0.0.1   | :white_check_mark: |
 
 ## Current Known Vulnerabilities:
-**Updated: Feb 27, 2024**
-| Status  | Severity | CVE CODE       | CWE CODE | CWE TYPE                           | Problem Name                                                              | 
-|---------|----------|----------------|----------|------------------------------------|---------------------------------------------------------------------------|
-| Patched | Moderate | CVE-2023-42282 | CWE-918  | Server Side Request Forgery (SSRF) | NPM IP package incorrectly identifies some private IP addresses as public.|
+**Updated: March 14, 2024**
+| Status  | Severity | CVE CODE       | CWE CODE | CWE TYPE                           | Problem Name                                                                                  | 
+|---------|----------|----------------|----------|------------------------------------|-----------------------------------------------------------------------------------------------|
+| Patched | Moderate | CVE-2023-42282 | CWE-918  | Server Side Request Forgery (SSRF) | NPM IP package incorrectly identifies some private IP addresses as public.                    |
+| Patched | Moderate | CVE-2024-28176 | CWE-400  | Uncontrolled Resource Consumption  | jose vulnerable to resource exhaustion via specifically crafted JWE with compressed plaintext |
 
 ## Reporting a Vulnerability:
 
