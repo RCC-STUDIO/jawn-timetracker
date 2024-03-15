@@ -54,53 +54,14 @@ Database Used:
 ```bash
 npm install
 ```
-2. Install next-auth
-```bash
-npm install next-auth
-```
-3. Install Cookies Package
-```bash
-npm install --save-dev @types/cookie
-```
-4. Install Bcrypt
-```bash
-npm add bcrypt
-```
-5. Install CSV 
-```bash
-npm install csv
-```
-6. Install Prisma
-```bash
-npm install prisma
-```
-7. Install Prisma Client
-```bash
-npm install @prisma/client
-```
-8. Install Prisma Adapter
-```bash
-npm install @next-auth/prisma-adapter
-```
-9. Setup/Configure Prisma (Use First Command Only if the prisma file hasn't been created)
-```bash
- npx prisma init
- ```
- ```bash
- npx prisma generate
-```
-```
-npx prisma db push
-```
 
-11. Make Sure you create a .env.local file in the root directory and add the following code
+2. Make Sure you create a .env.local file in the root directory and add the following code
 ```markdown
 
 NEXTAUTH_URL=http://localhost:3000 
 NEXTAUTH_SECRET=<copy NextAuth Secret here>
 
-DATABASE_URL=<copy Database URL Here>
-
+DATABASE_URI=<copy Database URL Here>
 ```
 
 ### Project Spin Up
@@ -118,7 +79,6 @@ Packages:
 - Next.js (v14.0.0) or Later
 - next-auth
 - bcrypt
-- prisma
 
 ### Documentation Links
 
