@@ -57,9 +57,6 @@ const LoginPage: React.FC = () => {
             />
           </div>
           <button type="submit" className="mt-5 py-2 rounded-md bg-blue-700 text-white font-semibold hover:bg-blue-800">Login</button>
-          <div className="mt-4">
-              <a href="/register" className="text-blue-500 hover:text-blue-600">No account? Register here</a>
-          </div>
         </div>
       </form>
     </main>
