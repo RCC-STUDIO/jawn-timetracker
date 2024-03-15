@@ -13,7 +13,7 @@ export async function POST(request) {
 export async function GET() {
     await connectMongoDB();
     const shifts = await Shift.find();
-    return NextResponse.json({ shifts });
+    return NextResponse.json( shifts );
 }
 
 export async function DELETE(request) {
