@@ -12,6 +12,6 @@ const shiftSchema = new Schema(
     }
 );
 
-const Shift = mongoose.models.shift || mongoose.model('Shift', shiftSchema);
+const Shift = mongoose.models.Shift || mongoose.model('Shift', shiftSchema);
 
 export default Shift;
