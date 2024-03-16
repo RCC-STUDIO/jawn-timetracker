@@ -5,6 +5,7 @@ const employeeSchema = new Schema(
         firstName: String,
         lastName: String,
         department: String,
+        isManager: Boolean,
     },
     { 
         timestamps: true 

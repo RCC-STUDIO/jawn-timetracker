@@ -2,18 +2,17 @@ import connectMongoDB from "@/libs/mongodb";
 import Employee from "@/models/employee";
 import { NextResponse } from "next/server";
 
-
 export async function POST(request) {
-    const { firstName, lastName, department } = await request.json();
+    const { firstName, lastName, department, isManager } = await request.json();
     await connectMongoDB();
-    await Employee.create({ firstName, lastName, department });
+    await Employee.create({ firstName, lastName, department, isManager });
     return NextResponse.json({ message: "Employee created"}, { status: 201 });
 }
 
 export async function GET() {
     await connectMongoDB();
     const employees = await Employee.find();
-    return NextResponse.json({ employees });
+    return NextResponse.json( employees );
 }
 
 export async function DELETE(request) {

@@ -4,15 +4,15 @@ import { NextResponse } from "next/server";
 
 export async function PUT(request, { params }) {
     const { id } = params;
-    const { NewFirstName: firstName, NewLastName: lastName, NewDepartment: department } = await request.json();
+    const { newFirstName: firstName, newLastName: lastName, newDepartment: department, newIsManager: isManager } = await request.json();
     await connectMongoDB();
-    await Employee.findByIdAndUpdate(id, { firstName, lastName, department });
+    await Employee.findByIdAndUpdate(id, { firstName, lastName, department, isManager });
     return NextResponse.json({ message: "Employee updated" }, { status: 200 });
 }
 
 export async function GET(request, { params }) {
     const { id } = params;
     await connectMongoDB();
-    const shift = await Employee.findOne({ _id: id });
-    return NextResponse.json({ shift }, )
+    const Employee = await Employee.findOne({ _id: id });
+    return NextResponse.json({ employee })
 }

@@ -15,7 +15,6 @@ const getShifts = async () => {
 };
 
 export default async function ShiftList() {
-    const shifts = await getShifts()
     const shiftStyle = "flex flex row justify-between";
     
     return (

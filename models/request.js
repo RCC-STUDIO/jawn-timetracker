@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const shiftSchema = new Schema(
+const requestSchema = new Schema(
     {
         startDate: String,
         endDate: String,
@@ -13,6 +13,6 @@ const shiftSchema = new Schema(
     }
 );
 
-const Shift = mongoose.models.Shift || mongoose.model('Shift', shiftSchema);
+const Request = mongoose.models.Request || mongoose.model('Request', requestSchema);
 
-export default Shift;
+export default Request;
