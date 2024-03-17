@@ -4,7 +4,8 @@ import { NextResponse } from "next/server";
 
 export async function PUT(request, { params }) {
     const { id } = params;
-    const { newUsername: username, newPassword: password, newEmail: email, newEmployee_id: employee_id } = await request.json();
+    let { newUsername: username, newPassword: password, newEmail: email, newEmployee_id: employee_id } = await request.json();
+    password = await hashPassword(password); // hash the password
     await connectMongoDB();
     await User.findByIdAndUpdate(id, { username, password, email, employee_id });
     return NextResponse.json({ message: "User updated" }, { status: 200 });

@@ -1,10 +1,12 @@
 import connectMongoDB from "@/libs/mongodb";
 import User from "@/models/user";
 import { NextResponse } from "next/server";
+import { hashPassword } from "@/libs/auth";
 
 
 export async function POST(request) {
-    const { username, password, email, employee_id } = await request.json();
+    let { username, password, email, employee_id } = await request.json();
+    password = await hashPassword(password); // hash the password
     await connectMongoDB();
     await User.create({ username, password, email, employee_id });
     return NextResponse.json({ message: "User created"}, { status: 201 });
