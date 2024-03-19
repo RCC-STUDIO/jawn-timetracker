@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react"
 
 //Styles Variables
 const buttonStyle = "bg-blue-950 hover:bg-blue-700 hover:text-blue-950 text-white p-5 w-full text-center"
-let loggedIn = false
+let loggedIn = true
 
 export default function NavBar() {
     const checkUser = () => {
@@ -23,10 +23,14 @@ export default function NavBar() {
         loggedIn && (<footer className="">
             <div className="flex flex-row text-xl text-white absolute bottom-0 left-0 w-full">
                 <div className={buttonStyle}>
-                    <a href="/calendar">Calendar</a>
+                    <a href="/calendar">
+                        <img src="..\public\images\calendar-button.png" alt="Calendar"/>
+                    </a>
                 </div>
                 <div className={buttonStyle}>
-                    <a href="/">Home</a>
+                    <a href="/">
+                        <img src="..\public\images\calendar-button.png" alt="Home"/>
+                    </a>
                 </div>
                 <div className={buttonStyle}>
                     <a href="/profile">Profile</a>
