@@ -4,9 +4,9 @@ import { NextResponse } from "next/server";
 
 
 export async function POST(request) {
-    const { startDate, endDate, employee, department, status } = await request.json();
+    const { startDate, endDate, employee_id, department_id, status } = await request.json();
     await connectMongoDB();
-    await Shift.create({ startDate, endDate, employee, department, status });
+    await Shift.create({ startDate, endDate, employee_id, department_id, status });
     return NextResponse.json({ message: "Shift created"}, { status: 201 });
 }
 

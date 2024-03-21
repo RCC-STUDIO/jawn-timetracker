@@ -2,10 +2,10 @@ import mongoose, { Schema } from "mongoose";
 
 const shiftSchema = new Schema(
     {
-        startDate: String,
-        endDate: String,
-        employee: String,
-        department: String,
+        startDate: String, // Format: "YYYY-MM-DD-HH-MM"
+        endDate: String, // Format: "YYYY-MM-DD-HH-MM"
+        employee_id: String,
+        department_id: String,
         status: String
     },
     { 

@@ -2,10 +2,10 @@ import mongoose, { Schema } from "mongoose";
 
 const requestSchema = new Schema(
     {
-        startDate: String,
-        endDate: String,
-        employee: String,
-        department: String,
+        first_shift_id: String,
+        second_shift_id: String,
+        next_employee_id: String,
+        department_id: String,
         status: String
     },
     { 
