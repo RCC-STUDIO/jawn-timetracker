@@ -297,6 +297,30 @@ export const deleteUser = async (id) => {
 }
 
 // Access to request cluster
+/*
+* 5 Statuses for requests:
+* pending: the request has been sent to the second employee
+* requested: the request has been sent to management
+* dropped: the shift has been dropped
+* swapped: the shifts have been swapped
+* completed: the request has been complete
+* 
+* Shift swaps:
+* 1. First employee sends request to second employee (pending)
+* 2. Second employee [next_employee_id] 
+*    a) accepts the request: the request is sent to management. (requested)
+*    b) declines the request: the request is declined and employee is notified. (completed)
+* 3. Management
+*    a) accepts the request: the request is complete and employees are notified. (swapped)
+*    b) declines the request: the request is declined and employees are notified. (completed)
+* 
+* Shift drops:
+* 1. Employee sends request to management (requested)
+* 2. Management
+*    a) accepts the request: the request is complete and employee is notified. (dropped)
+*    b) declines the request: the request is declined and employee is notified. (completed)
+*/
+
 /* 
 * The getRequests function makes a GET request to the server to retrieve all the requests.
 * The function returns a list of requests in JSON format.
