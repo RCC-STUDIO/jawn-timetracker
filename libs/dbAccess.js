@@ -296,6 +296,8 @@ export const deleteUser = async (id) => {
     }
 }
 
+export { getShifts, getShift, createShift, updateShift, deleteShift, getUsers, getUser, createUser, updateUser, deleteUser, getEmployees, getEmployee, createEmployee, updateEmployee, deleteEmployee, getDepartments, getDepartment, createDepartment, updateDepartment, deleteDepartment, getRequests, getRequest, createRequest, updateRequest, deleteRequest };
+
 // Access to request cluster
 /*
 * 5 Statuses for requests:
