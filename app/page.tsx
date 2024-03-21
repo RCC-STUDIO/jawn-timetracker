@@ -1,7 +1,7 @@
 'use client'
 import { useState } from "react";
 import NavBar from "@/components/NavBar";
-import ShiftRequest from "@/components/modals/ShiftRequest";
+import ShiftRequest from "@/components/ShiftRequest";
 
 export default function Home() {
   const [modalState, setModalState] = useState(-1); // Initialize modal state with -1
@@ -41,7 +41,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex flex-col items-center justify-between py-10 px-5">
+    <main className="min-h-screen flex flex-col items-center justify-between py-10 px-5">
       <h1 className="p-5 font-bold text-2xl">My Shifts</h1>
       <div className="flex flex-col items-center bg-blue-950 w-full p-5 rounded-lg">
         {shifts.map((shift) => (
