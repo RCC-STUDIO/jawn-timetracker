@@ -1,3 +1,5 @@
+'use client'
+import SwapRequests from "@/components/SwapRequests";
 export default function App() {
     return (
               <main className="min-h-screen justify-between p-5">
@@ -13,6 +15,7 @@ export default function App() {
                         <p className=' text-sm p-2'>email@address.com</p>
                       </div>
                   </div>
+                  <SwapRequests/>
                 </div>
               </main>
             );
