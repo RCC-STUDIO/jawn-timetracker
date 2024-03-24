@@ -1,12 +1,10 @@
 import React from "react";
 import { useState } from "react";
-import ShiftRequest from "./ShiftRequest";
+import SwapOptions from "./SwapOptions";
 // STYLE CONSTANTS
 const requestStyles =
-  "bg-blue-100 p-5 my-5 w-full items-center rounded-md text-black";
+  "bg-blue-100 p-3 w-full items-center rounded-md text-black";
 const requestContentStyles = "flex flex-row justify-between font-bold";
-const buttonStyles =
-  "bg-blue-100 text-black border rounded-md border-blue-100 p-4";
 
 const fakeSwapRequests = [
   ["Ryan", "Monday the 15th", "4pm - 10pm", "Tuesday the 16th", "9am - 3pm"],
@@ -23,7 +21,33 @@ export default function SwapRequests() {
   return (
     <div className="w-full bg-blue-950 p-5 mt-7 border rounded-md border-blue-950">
       <h2 className="text-center font-bold">SWAP REQUESTS</h2>
-            {/*the swap requests are going to go here. I haven't brought the code over yet*/}
+      {fakeSwapRequests.map((index, key) => (
+        <div className="bg-blue-100 border rounded-md m-3">
+        <div onClick={() => toggleModal(key)} key={key} className={requestStyles}>
+          <div className="">
+            <div className={requestContentStyles}>
+              <p>Employee:</p>
+              <p>{index[0]}</p>
+            </div>
+            <div className={requestContentStyles}>
+              <p>Theirs:</p>
+              <div className="flex flex-col text-right">
+                <p>{index[1]}</p>
+                <p>{index[2]}</p>
+              </div>
+            </div>
+            <div className={requestContentStyles}>
+              <p>Yours:</p>
+              <div className="flex flex-col text-right">
+                <p>{index[3]}</p>
+                <p>{index[4]}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {modalState === key && <SwapOptions/>} {/* Render modal if modalState matches shift key */}
+        </div>
+      ))}
     </div>
   );
 }
