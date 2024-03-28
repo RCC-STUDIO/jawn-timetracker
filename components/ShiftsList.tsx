@@ -1,18 +1,4 @@
-const getShifts = async () => {
-    try {
-        const response = await fetch('http://localhost:3000/api/shifts', {
-            cache: 'no-store',
-        });
-
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-
-        return response.json();
-    } catch (error) {
-        console.error(error);
-    }
-};
+import { getShifts } from "@/libs/dbAccess";
 
 export default async function ShiftList() {
     const shiftStyle = "flex flex row justify-between";
@@ -33,11 +19,15 @@ export default async function ShiftList() {
                 </div>
                 <div className={shiftStyle}>
                   <h2>Employee:</h2>
-                  <p>{shift.employee}</p>
+                  <p>{shift.employee_id}</p>
                 </div>
                 <div className={shiftStyle}>
                   <h2>Department:</h2>
-                  <p>{shift.department}</p>
+                  <p>{shift.department_id}</p>
+                </div>
+                <div className={shiftStyle}>
+                  <h2>Status:</h2>
+                  <p>{shift.status}</p>
                 </div>
               </div>
             </div>
