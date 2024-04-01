@@ -1,6 +1,9 @@
 'use client'
 
 import React from "react"
+import { usePathname } from "next/navigation";
+
+
 const fakeSchedule = [
     ["Matthew", "Monday the 15th", "4pm - 10pm"],
     ["Matthew", "Monday the 15th", "4pm - 10pm"],
@@ -33,6 +36,18 @@ const requestStyles = "bg-blue-100 p-4 w-full items-center rounded-md text-black
 const requestContentStyles = "flex flex-row justify-between font-bold"
 
 export default function AllShifts() {
+    //Import ShiftId from the URL
+    const shiftIdImporter = () => {
+        //Import URL Pathname including Perameters
+        const pathname = usePathname();
+        const shiftId = pathname.split(":")[1];
+        //ShiftID Debug: console.log(shiftId);
+
+        //Sanitize and Verify ShiftId is Valid
+        shiftIdCheck();
+    }
+
+    shiftIdImporter();
     return (
         <div className=" items-center text-center">
             <h1 className="text-2xl font-bold p-4">SELECT SHIFT TO SWAP</h1>
@@ -61,4 +76,9 @@ export default function AllShifts() {
         </div>
         </div>
     )
+}
+
+function shiftIdCheck() {
+    //Check if shiftId is valid (If Not Done, Server Side Request Forgery Happens)
+    //If not, redirect to home page
 }

@@ -66,7 +66,7 @@ export default function ShiftList() {
                 <p>{shift.status}</p>
               </div>
             </div>
-            {modalState === key && <ShiftRequest />}
+            {modalState === key && <ShiftRequest shiftId={shift._id}/>}
           </div>
         </div>
       ))}

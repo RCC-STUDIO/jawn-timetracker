@@ -23,16 +23,18 @@ export default function NavBar() {
         loggedIn && (<nav className="flex flex-row text-xl text-white w-full">
                 <div className={buttonStyle}>
                     <a href="/calendar">
-                        <img src="..\public\images\calendar-button.png" alt="Calendar"/>
+                        <img src="\images\calendar-button.png" alt="Calendar"/>
                     </a>
                 </div>
                 <div className={buttonStyle}>
                     <a href="/">
-                        <img src="..\public\images\calendar-button.png" alt="Home"/>
+                        <img src="\images\home-button.png" alt="Home"/>
                     </a>
                 </div>
                 <div className={buttonStyle}>
-                    <a href="/profile">Profile</a>
+                    <a href="/profile">
+                        <img src="\images\profile_icon.jpg" alt="Profile"/>
+                    </a>
                 </div>
             
         </nav>)
