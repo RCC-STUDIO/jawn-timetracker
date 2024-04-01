@@ -17,10 +17,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="flex flex-col min-h-screen">
+    <html lang="en" className="bg-blue-700">
+      <body className="">
         <AuthProvider>
-          <div className="flex-grow flex flex-col bg-blue-700">
+          <div className="bg-blue-700">
             <ManagerLink />
             {children}
             <NavBar />

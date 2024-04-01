@@ -33,7 +33,7 @@ const CalendarPage: React.FC = () => {
   };
 
   return (
-    <main className="flex flex-col items-center justify-between p-5">
+    <main className="flex flex-col min-h-screen items-center justify-between p-5">
       <div className="w-full max-w-md mx-auto">
         <h1 className="text-xl font-semibold mb-4 text-center">Monthly Calendar</h1>
         <div className="overflow-x-auto">
