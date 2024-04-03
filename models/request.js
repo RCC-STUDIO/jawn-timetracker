@@ -5,7 +5,7 @@ const requestSchema = new Schema(
         first_shift_id: String,
         second_shift_id: String,
         requester_employee_id: String,
-        requestee_employee_id: String,
+        requestee_employee_id: String, // can be null
         department_id: String,
         status: String // pending, requested, dropped, swapped, completed
         /*

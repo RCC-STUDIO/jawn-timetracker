@@ -1,6 +1,7 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getShifts } from '@/libs/dbAccess';
 
 interface ScheduleEntry {
   name: string;
@@ -16,12 +17,36 @@ const fakeSchedule: ScheduleEntry[] = [
   { name: "Gabriel L.", days: ["12:00 PM - 8:00 PM", "12:00 PM - 8:00 PM", "12:00 PM - 8:00 PM", null, null, null, null] },
 ];
 
+interface Shift {
+  startDate: string;
+  endDate: string;
+  employee_id: string;
+  department_id: string;
+  status: string;
+  _id: string;
+}
+
 const CalendarPage: React.FC = () => {
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const [shifts, setShifts] = useState<Shift[]>([])
+
+  useEffect(() => {
+    async function fetchShifts() {
+      try {
+        const shiftsData = await getShifts();
+        const userShifts = shiftsData.filter((shift: Shift) => shift.employee_id);
+
+        setShifts(userShifts);
+      } catch (error) {
+        console.error("Error fetching shifts:", error);
+      }
+    }
+    fetchShifts();
+  }, []);
 
   const renderDayDetails = (dayIndex: number) => {
     return (
-      <div className="mt-4 bg-white shadow-md rounded-lg p-4">
+      <div className="mt-4 bg-blue-950 shadow-md rounded-lg p-4">
         <h2 className="font-bold text-lg">Schedule for {weekDays[dayIndex]}:</h2>
         <ul>
           {fakeSchedule.map((entry, index) => (
@@ -50,7 +75,7 @@ const CalendarPage: React.FC = () => {
             <tbody>
               {}
               {Array.from({ length: 4 }).map((_, weekIndex) => (
-                <tr key={weekIndex} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <tr key={weekIndex} className="bg-black border-b dark:bg-gray-800 dark:border-gray-700">
                   {weekDays.map((_, dayIndex) => (
                     <td key={dayIndex} className="py-4 px-6 text-center cursor-pointer" onClick={() => setSelectedDay(dayIndex)}>
                       {}
