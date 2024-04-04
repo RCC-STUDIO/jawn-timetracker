@@ -4,33 +4,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { getShifts } from "@/libs/dbAccess";
 import ShiftRequest from "@/components/ShiftRequest";
-
-/*const fakeSchedule = [
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ["Matthew", "Monday the 15th", "4pm - 10pm"],
-];*/
+import { usePathname } from "next/navigation";
 
 // STYLE CONSTANTS
 const shiftStyle = "flex flex row justify-between";
@@ -47,6 +21,23 @@ interface Shift {
 export default function AllShifts() {
   const [modalState, setModalState] = useState(-1);
   const [shifts, setShifts] = useState<Shift[]>([]);
+
+  const shiftIdImporter = () => {
+
+    //Import URL Pathname including Perameters
+
+    const pathname = usePathname();
+
+    const shiftId = pathname.split(":")[1];
+
+    //ShiftID Debug: console.log(shiftId);
+
+
+
+    //Sanitize and Verify ShiftId is Valid
+
+    shiftIdCheck();
+  }
 
   const toggleModal = (key: number) => {
     setModalState((previous) => (previous === key ? -1 : key));
@@ -101,4 +92,12 @@ export default function AllShifts() {
       </div>
     </div>
   );
+}
+
+function shiftIdCheck() {
+
+  //Check if shiftId is valid (If Not Done, Server Side Request Forgery Happens)
+
+  //If not, redirect to home page
+
 }
