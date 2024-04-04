@@ -3,7 +3,8 @@
 import Carousel from "@/components/Carousel";
 import ChangeEvent from "react";
 import { useState } from "react";
-
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 const fakeDropsRequests = [
   ["Matthew", "Monday the 15th", "4pm - 10pm"],
   ["Matthew", "Monday the 15th", "4pm - 10pm"],
@@ -30,7 +31,13 @@ export default function App() {
   const fileHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     // push this file content to the database
   };
+  const router = useRouter();
+  const { status, data: session } = useSession();
 
+  // If the user is not authenticated get routed to main home page
+  if (status === "unauthenticated"){
+    router.push(`/login`);
+  } else {
   return (
     <main className="flex min-h-screen flex-col items-center">
       <div className="flex flex-col items-center p-10">
@@ -44,4 +51,5 @@ export default function App() {
       
     </main>
   );
+  }
 }

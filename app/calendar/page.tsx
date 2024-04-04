@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { getShifts } from '@/libs/dbAccess';
-
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 interface ScheduleEntry {
   name: string;
   days: (string | null)[];
@@ -56,7 +57,13 @@ const CalendarPage: React.FC = () => {
       </div>
     );
   };
+  const router = useRouter();
+  const { status, data: session } = useSession();
 
+  // If the user is not authenticated get routed to main home page
+  if (status === "unauthenticated"){
+    router.push(`/login`);
+  } else {
   return (
     <main className="flex flex-col min-h-screen items-center justify-between p-5">
       <div className="w-full max-w-md mx-auto">
@@ -91,6 +98,7 @@ const CalendarPage: React.FC = () => {
       </div>
     </main>
   );
+                  }
 };
 
 export default CalendarPage;

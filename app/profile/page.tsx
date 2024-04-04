@@ -1,6 +1,15 @@
 'use client'
 import SwapRequests from "@/components/SwapRequests";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 export default function App() {
+  const router = useRouter();
+  const { status, data: session } = useSession();
+
+  // If the user is not authenticated get routed to main home page
+  if (status === "unauthenticated"){
+    router.push(`/login`);
+  } else {
     return (
               <main className="min-h-screen justify-between p-5">
                 <div className="flex flex-col justify-center text-center p-7">
@@ -19,5 +28,6 @@ export default function App() {
                 </div>
               </main>
             );
+  }
           }
     
