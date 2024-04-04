@@ -16,6 +16,8 @@ interface Shift {
 
 
 export default function ShiftList() {
+
+  
   const shiftStyle = "flex flex row justify-between";
   const [shifts, setShifts] = useState<Shift[]>([]);
   const [modalState, setModalState] = useState(-1);

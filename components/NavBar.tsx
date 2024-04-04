@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 
 //Styles Variables
 const buttonStyle = "bg-blue-950 hover:bg-blue-700 hover:text-blue-950 text-white p-5 w-full text-center"
-const imageStyles = "w-10 h-10 m-auto"
+const imageStyles = "w-10 h-10 m-auto rounded-full"
 
 
 export default function NavBar() {
@@ -27,7 +27,7 @@ export default function NavBar() {
                 </div>
                 <div className={buttonStyle}>
                     <a href="/profile">
-                        <img className={imageStyles} src="\images\profile_icon.jpg" alt="Profile"/>
+                        <img className={imageStyles} src={session?.user?.image ?? "../public/images/profile_icon.jpg"} alt="Profile"/>
                     </a>
                 </div>
             
