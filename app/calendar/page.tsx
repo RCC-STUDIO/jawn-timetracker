@@ -10,13 +10,6 @@ interface ScheduleEntry {
 }
 
 const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const fakeSchedule: ScheduleEntry[] = [
-  { name: "Ryan C.", days: [null, "8:00 AM - 4:00 PM", "8:00 AM - 4:00 PM", "8:00 AM - 4:00 PM", "8:00 AM - 4:00 PM", "8:00 AM - 4:00 PM", null] },
-  { name: "Matthew S.", days: [null, "9:00 AM - 5:00 PM", "9:00 AM - 5:00 PM", "9:00 AM - 5:00 PM", "9:00 AM - 5:00 PM", "9:00 AM - 5:00 PM", null] },
-  { name: "Ben R.", days: [null, "10:00 AM - 6:00 PM", "10:00 AM - 6:00 PM", "10:00 AM - 6:00 PM", null, null, null] },
-  { name: "Cyril D.", days: [null, "1:00 PM - 9:00 PM", null, null, null, null, null] },
-  { name: "Gabriel L.", days: ["12:00 PM - 8:00 PM", "12:00 PM - 8:00 PM", "12:00 PM - 8:00 PM", null, null, null, null] },
-];
 
 interface Shift {
   startDate: string;
@@ -27,17 +20,37 @@ interface Shift {
   _id: string;
 }
 
+interface EmployeeNames {
+  [key: string]: string;
+}
+
+const employeeNames: EmployeeNames = {
+  // "employee_id": "Name",
+};
+
 const CalendarPage: React.FC = () => {
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
-  const [shifts, setShifts] = useState<Shift[]>([])
+  const [schedule, setSchedule] = useState<Record<string, { name: string; time: string }[]>>({});
 
   useEffect(() => {
     async function fetchShifts() {
       try {
         const shiftsData = await getShifts();
         const userShifts = shiftsData.filter((shift: Shift) => shift.employee_id);
-
-        setShifts(userShifts);
+        // Transform shifts into a schedule format
+        const scheduleFormat: Record<string, { name: string; time: string }[]> = {};
+        userShifts.forEach((shift: { startDate: string | number | Date; employee_id: string | number; endDate: string | number | Date; }) => {
+          const shiftDate = new Date(shift.startDate).getDay();
+          const employeeName = employeeNames[shift.employee_id] || 'Unknown'; 
+          const startTime = new Date(shift.startDate).toLocaleTimeString();
+          const endTime = new Date(shift.endDate).toLocaleTimeString();
+          const time = `${startTime} - ${endTime}`;
+          if (!scheduleFormat[shiftDate]) {
+            scheduleFormat[shiftDate] = [];
+          }
+          scheduleFormat[shiftDate].push({ name: employeeName, time });
+        });
+        setSchedule(scheduleFormat);
       } catch (error) {
         console.error("Error fetching shifts:", error);
       }
@@ -50,22 +63,23 @@ const CalendarPage: React.FC = () => {
       <div className="mt-4 bg-blue-950 shadow-md rounded-lg p-4">
         <h2 className="font-bold text-lg">Schedule for {weekDays[dayIndex]}:</h2>
         <ul>
-          {fakeSchedule.map((entry, index) => (
-            entry.days[dayIndex] ? <li key={index}>{entry.name}: {entry.days[dayIndex]}</li> : null
+          {schedule[dayIndex]?.map((entry, index) => (
+            <li key={index}>{entry.name}: {entry.time}</li>
           ))}
         </ul>
       </div>
     );
   };
-  const router = useRouter();
-  const { status, data: session } = useSession();
 
-  // If the user is not authenticated get routed to main home page
-  if (status === "unauthenticated"){
+  const router = useRouter();
+  const { status } = useSession();
+
+  if (status === "unauthenticated") {
     router.push(`/login`);
+    return null;
   } else {
-  return (
-    <main className="flex flex-col min-h-screen items-center justify-between p-5">
+    return (
+      <main className="flex flex-col min-h-screen items-center justify-between p-5">
       <div className="w-full max-w-md mx-auto">
         <h1 className="text-xl font-semibold mb-4 text-center">Monthly Calendar</h1>
         <div className="overflow-x-auto">
@@ -96,9 +110,9 @@ const CalendarPage: React.FC = () => {
         </div>
         {selectedDay !== null && renderDayDetails(selectedDay)}
       </div>
-    </main>
-  );
-                  }
+      </main>
+    );
+  }
 };
 
 export default CalendarPage;
