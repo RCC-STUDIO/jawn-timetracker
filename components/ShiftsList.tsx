@@ -2,7 +2,6 @@
 import { getEmployees, getShifts, getDepartments } from "@/libs/dbAccess";
 import { useState, useEffect } from "react";
 import ShiftRequest from "./ShiftRequest";
-import { set } from "mongoose";
 
 interface Shift {
   startDate: string;
@@ -28,7 +27,6 @@ interface Department {
 }
 
 export default function ShiftList(params: { email: any }) {
-  console.log(params.email);
   const shiftStyle = "flex flex row justify-between";
   const [modalState, setModalState] = useState(-1);
   const [shifts, setShifts] = useState<Shift[]>([]);
@@ -52,7 +50,6 @@ export default function ShiftList(params: { email: any }) {
           }
         }
 
-        // the user "65fb91a6733b75969216cb2d" is being used for testing purposes
         const userShifts = shiftsData.filter((shift: Shift) => shift.employee_id == employee_id);
 
         setShifts(userShifts);
