@@ -12,7 +12,7 @@ export default function Home() {
 
   // If the user is not authenticated get routed to main home page
   if (status === "unauthenticated"){
-    router.push(`/login`);
+    router.push(`/api/auth/signin`);
   } else {
     return (
       <main className="min-h-screen flex flex-col items-center justify-between py-10 px-5">

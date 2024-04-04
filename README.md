@@ -57,11 +57,11 @@ npm install
 
 2. Make Sure you create a .env.local file in the root directory and add the following code
 ```markdown
-
-NEXTAUTH_URL=http://localhost:3000 
-NEXTAUTH_SECRET=<copy NextAuth Secret here>
-
-DATABASE_URI=<copy Database URL Here>
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET= <YOUR_SECRET>
+GOOGLE_CLIENT_ID= <YOUR_CLIENT_ID>
+GOOGLE_CLIENT_SECRET= <YOUR_CLIENT_SECRET>
+MONGO_URI= <YOUR_DATABASE_URL>
 ```
 
 ### Project Spin Up

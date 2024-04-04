@@ -60,7 +60,7 @@ export default function AllShifts() {
 
   // If the user is not authenticated get routed to main home page
   if (status === "unauthenticated"){
-    router.push(`/login`);
+    router.push(`/api/auth/signin`);
   } else {
   return (
     <div className=" items-center text-center">
