@@ -67,34 +67,33 @@ const CalendarPage: React.FC = () => {
     return (
       <main className="flex flex-col min-h-screen items-center justify-between p-5">
         <h1 className="text-xl font-semibold mb-4 text-center">Weekly Calendar</h1>
-        {/* Weekly Calendar Header */}
-        <div className="w-full max-w-md mx-auto mb-4">
-          <div className="grid grid-cols-8 gap-4">
-            <div className="col-span-1 text-center border-r border-gray-300">Emp</div>
-            {weekDays.map((day, index) => (
-              <div key={index} className={`col-span-1 text-center ${index < weekDays.length - 1 ? 'border-r border-gray-300' : ''}`}>{day}</div>
-            ))}
+        {/* Weekly Calendar Header and Employee Rows */}
+        <div className="w-full max-w-md mx-auto">
+          <div className="border-b border-gray-300">
+            {/* Header Row */}
+            <div className="grid grid-cols-8">
+              <div className="col-span-1 text-center border-r border-gray-300 py-2">Emp</div>
+              {weekDays.map((day, index) => (
+                <div key={index} className={`col-span-1 text-center py-2 ${index < weekDays.length - 1 ? 'border-r border-gray-300' : ''}`}>{day}</div>
+              ))}
+            </div>
           </div>
-        </div>
-        {/* Employee Rows */}
-        {Object.entries(schedule).map(([employeeId, days], rowIndex) => (
-          <div key={employeeId} className="w-full max-w-md mx-auto mb-4 border-b border-gray-300">
-            <div className="grid grid-cols-8 gap-4">
-              {/* Employee Name */}
-              <div className={`col-span-1 font-bold text-center ${rowIndex < Object.keys(schedule).length - 1 ? 'border-r border-gray-300' : ''}`}>{Object.values(days)[0][0].name}</div>
-              {/* Days of the week */}
+          {/* Employee Rows */}
+          {Object.entries(schedule).map(([employeeId, days], rowIndex) => (
+            <div key={employeeId} className="grid grid-cols-8 border-b border-gray-300">
+              <div className={`col-span-1 font-bold text-center py-2 ${rowIndex < Object.keys(schedule).length - 1 ? 'border-r border-gray-300' : ''}`}>{Object.values(days)[0][0].name}</div>
               {weekDays.map((day, dayIndex) => {
                 const isActiveDay = days[dayIndex] !== undefined;
                 return (
-                  <div key={dayIndex} className={`col-span-1 py-2 text-center cursor-pointer ${isActiveDay ? "text-blue-500" : "text-gray-500"} ${dayIndex < weekDays.length - 1 ? 'border-r border-gray-300' : ''}`}>
+                  <div key={dayIndex} className={`col-span-1 text-center py-2 cursor-pointer ${isActiveDay ? "text-blue-500" : "text-gray-500"} ${dayIndex < weekDays.length - 1 ? 'border-r border-gray-300' : ''}`}>
                     {isActiveDay ? "🟢" : "⚪️"}
                   </div>
                 );
               })}
+              {selectedShift && selectedShift.employeeId === employeeId && <div className="col-span-8">{renderDayDetails(employeeId, selectedShift.dayOfWeek)}</div>}
             </div>
-            {selectedShift && selectedShift.employeeId === employeeId && renderDayDetails(employeeId, selectedShift.dayOfWeek)}
-          </div>
-        ))}
+          ))}
+        </div>
       </main>
     );
   }
