@@ -9,22 +9,9 @@ interface ScheduleEntry {
   days: (string | null)[];
 }
 
-const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]; 
 
-interface Shift {
-  startDate: string;
-  endDate: string;
-  employee_id: string;
-  department_id: string;
-  status: string;
-  _id: string;
-}
-
-interface EmployeeNames {
-  [key: string]: string;
-}
-
-const employeeNames: EmployeeNames = {
+const employeeNames = {
   // "employee_id": "Employee Name",,
 };
 
@@ -38,17 +25,21 @@ const CalendarPage: React.FC = () => {
         const shiftsData = await getShifts();
         const tempSchedule: Record<number, { name: string; time: string }[]> = {};
 
+        const employeeNames: { [key: string]: string } = {
+          // "employee_id": "Employee Name",
+        };
+
         shiftsData.forEach((shift: { startDate: string | number | Date; endDate: string | number | Date; employee_id: string | number; }) => {
           const startDate = new Date(shift.startDate);
           const endDate = new Date(shift.endDate);
-          const dayOfMonth = startDate.getDate();
+          const dayOfWeek = startDate.getDay(); // Use getDay() to determine the day of week
           const employeeName = employeeNames[shift.employee_id] || 'Unknown'; 
           const time = `${startDate.toLocaleTimeString()} - ${endDate.toLocaleTimeString()}`;
 
-          if (!tempSchedule[dayOfMonth]) {
-            tempSchedule[dayOfMonth] = [];
+          if (!tempSchedule[dayOfWeek]) {
+            tempSchedule[dayOfWeek] = [];
           }
-          tempSchedule[dayOfMonth].push({ name: employeeName, time });
+          tempSchedule[dayOfWeek].push({ name: employeeName, time });
         });
 
         setSchedule(tempSchedule);
@@ -59,16 +50,12 @@ const CalendarPage: React.FC = () => {
     fetchShifts();
   }, []);
 
-  const renderDayDetails = (dayOfMonth: number) => {
-    const date = new Date();
-    const firstDayOfWeek = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
-    const dayIndex = (dayOfMonth + firstDayOfWeek - 1) % 7;
-
+  const renderDayDetails = (dayOfWeek: number) => {
     return (
       <div className="mt-4 bg-blue-950 shadow-md rounded-lg p-4">
-        <h2 className="font-bold text-lg">Schedule for {weekDays[dayIndex]} the {dayOfMonth}:</h2>
+        <h2 className="font-bold text-lg">Schedule for {weekDays[dayOfWeek]}:</h2>
         <ul>
-          {schedule[dayOfMonth]?.map((entry, index) => (
+          {schedule[dayOfWeek + 1]?.map((entry, index) => (
             <li key={index}>{entry.name}: {entry.time}</li>
           )) || <li>No one is scheduled to work this day.</li>}
         </ul>
@@ -83,41 +70,35 @@ const CalendarPage: React.FC = () => {
     router.push(`/login`);
     return null;
   } else {
-    const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
-
     return (
-  <main className="flex flex-col min-h-screen items-center justify-between p-5">
-  <div className="w-full max-w-md mx-auto">
-  <h1 className="text-xl font-semibold mb-4 text-center">Monthly Calendar</h1>
-  <div className="overflow-x-auto">
-    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-      <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-          {weekDays.map((day) => (
-            <th key={day} scope="col" className="py-3 px-1 text-center">
-              {day}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {}
-        {Array.from({ length: 4 }).map((_, weekIndex) => (
-          <tr key={weekIndex} className="bg-black border-b dark:bg-gray-800 dark:border-gray-700">
-            {weekDays.map((_, dayIndex) => (
-              <td key={dayIndex} className="py-4 px-6 text-center cursor-pointer" onClick={() => setSelectedDay(dayIndex)}>
-                {}
-                {weekIndex * 7 + dayIndex + 1 <= 30 ? weekIndex * 7 + dayIndex + 1 : ''}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-  {selectedDay !== null && renderDayDetails(selectedDay)}
-</div>
-</main>
+      <main className="flex flex-col min-h-screen items-center justify-between p-5">
+        <div className="w-full max-w-md mx-auto">
+          <h1 className="text-xl font-semibold mb-4 text-center">Weekly Calendar</h1>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  {weekDays.map((day, index) => (
+                    <th key={day} scope="col" className="py-3 px-1 text-center">
+                      {day}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="bg-black border-b dark:bg-gray-800 dark:border-gray-700">
+                  {weekDays.map((_, dayIndex) => (
+                    <td key={dayIndex} className="py-4 px-6 text-center cursor-pointer" onClick={() => setSelectedDay(dayIndex)}>
+                      {dayIndex + 1}
+                    </td>
+                  ))}
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          {selectedDay !== null && renderDayDetails(selectedDay)}
+        </div>
+      </main>
     );
   }
 };
