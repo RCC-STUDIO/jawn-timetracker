@@ -2,6 +2,7 @@
 import { getEmployees, getShifts, getDepartments } from "@/libs/dbAccess";
 import { useState, useEffect } from "react";
 import ShiftRequest from "./ShiftRequest";
+import { useSession } from 'next-auth/react'
 
 interface Shift {
   startDate: Date;
@@ -26,7 +27,9 @@ interface Department {
   _id: String
 }
 
-export default function ShiftList(params: { email: any }) {
+export default function ShiftList() {
+  const { status, data: session } = useSession();
+  const userEmail = session?.user?.email;
   const shiftStyle = "flex flex row justify-between";
   const [modalState, setModalState] = useState(-1);
   const [shifts, setShifts] = useState<Shift[]>([]);
@@ -45,7 +48,7 @@ export default function ShiftList(params: { email: any }) {
         setDepartments(departments);
         // find employee by matching the email
         for (let i = 0; i < employees.length; i++) {
-          if (employees[i].email == params.email) {
+          if (employees[i].email == userEmail) {
             employee_id = employees[i]._id;
           }
         }
@@ -58,7 +61,7 @@ export default function ShiftList(params: { email: any }) {
       }
     }
     fetchShifts();
-  }, [params.email]);
+  }, [userEmail]);
 
   const toggleModal = (key: number) => {
     setModalState((previous) => (previous === key ? -1 : key));

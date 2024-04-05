@@ -43,7 +43,7 @@ export default function App() {
         <h1 className="p-4 text-2xl font-bold underline">MANAGEMENT</h1>
         <form className="bg-blue-950 p-4 w-full rounded-md">
           <h1>Import Schedule</h1>
-          <input type="file" className="" accept="csv"></input>
+          <input title="file" type="file" className="" accept="csv"></input>
         </form>
         <Carousel/>
       </div>
