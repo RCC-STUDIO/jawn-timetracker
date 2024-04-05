@@ -3,7 +3,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { getShifts } from "@/libs/dbAccess";
-import ShiftRequest from "@/components/ShiftRequest";
+import CompleteSwap from "@/components/CompleteSwap";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -11,6 +11,8 @@ import { getEmployees, getDepartments } from "@/libs/dbAccess";
 
 // STYLE CONSTANTS
 const shiftStyle = "flex flex row justify-between";
+const buttonStyle = 'bg-blue-100 text-blue-950 border rounded-md hover:bg-blue-950 hover:text-blue-100 px-6 py-3 mx-5';
+
 
 interface Shift {
   startDate: string;
@@ -95,6 +97,11 @@ export default function AllShifts() {
     return departmentName;
   }
 
+  const returnToMain = () => {
+    const path:string = `/`;
+    router.push(path);
+  }
+  
   // If the user is not authenticated get routed to main home page
   if (status === "unauthenticated"){
     router.push(`/api/auth/signin`);
@@ -102,6 +109,7 @@ export default function AllShifts() {
   return (
     <div className=" items-center text-center">
       <h1 className="text-2xl font-bold p-4">SELECT SHIFT TO SWAP</h1>
+      <button onClick={returnToMain} className={buttonStyle}>Cancel</button>
       <div className="border rounded-md bg-blue-950 p-4 m-4 border-blue-950">
         {shifts.map((shift, key) => {
           const allMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -141,7 +149,7 @@ export default function AllShifts() {
                   <p>{shift.status}</p>
                 </div>
               </div>
-              {modalState === key && <ShiftRequest shiftId={shift._id}/>}
+              {modalState === key && <CompleteSwap/>}
             </div>
           </div>
         )})}

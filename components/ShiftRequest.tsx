@@ -51,7 +51,7 @@ const ShiftRequest = ({ shiftId}: { shiftId: string }) => {
     <div className="modal-overlay flex flex-col bg-blue-950 items-center mb-4">
       <h2 className="p-3 text-lg font-bold">Shift Options</h2>
       <div className="flex flex-row justify-center w-full">
-        <button onClick={() => dropShift} className={buttonStyle}>Drop</button>
+        <button onClick={dropShift} className={buttonStyle}>Drop</button>
         <button onClick={navigateTo} className={buttonStyle}>Swap</button>
       </div>
       {message && (<p className='pt-4 text-lg'>{message}</p>)}
