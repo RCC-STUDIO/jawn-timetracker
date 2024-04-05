@@ -70,21 +70,23 @@ const CalendarPage: React.FC = () => {
         {/* Weekly Calendar Header */}
         <div className="w-full max-w-md mx-auto mb-4">
           <div className="grid grid-cols-8 gap-4">
+            <div className="col-span-1 text-center border-r border-gray-300">Emp</div>
             {weekDays.map((day, index) => (
-              // Apply border-right conditionally to avoid it on the last column
-              <div key={index} className={`col-span-1 text-center ${index < weekDays.length - 1 ? 'border-r border-gray-200' : ''}`}>{day}</div>
+              <div key={index} className={`col-span-1 text-center ${index < weekDays.length - 1 ? 'border-r border-gray-300' : ''}`}>{day}</div>
             ))}
           </div>
         </div>
         {/* Employee Rows */}
-        {Object.entries(schedule).map(([employeeId, days]) => (
-          <div key={employeeId} className="w-full max-w-md mx-auto mb-4">
+        {Object.entries(schedule).map(([employeeId, days], rowIndex) => (
+          <div key={employeeId} className="w-full max-w-md mx-auto mb-4 border-b border-gray-300">
             <div className="grid grid-cols-8 gap-4">
+              {/* Employee Name */}
+              <div className={`col-span-1 font-bold text-center ${rowIndex < Object.keys(schedule).length - 1 ? 'border-r border-gray-300' : ''}`}>{Object.values(days)[0][0].name}</div>
+              {/* Days of the week */}
               {weekDays.map((day, dayIndex) => {
                 const isActiveDay = days[dayIndex] !== undefined;
                 return (
-                  // Apply border-right to all but the last cell in each row
-                  <div key={dayIndex} className={`col-span-1 py-2 text-center cursor-pointer ${isActiveDay ? "text-blue-500" : "text-gray-500"} ${dayIndex < weekDays.length - 1 ? 'border-r border-gray-200' : ''}`}>
+                  <div key={dayIndex} className={`col-span-1 py-2 text-center cursor-pointer ${isActiveDay ? "text-blue-500" : "text-gray-500"} ${dayIndex < weekDays.length - 1 ? 'border-r border-gray-300' : ''}`}>
                     {isActiveDay ? "🟢" : "⚪️"}
                   </div>
                 );
