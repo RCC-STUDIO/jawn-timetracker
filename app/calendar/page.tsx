@@ -9,12 +9,12 @@ interface ScheduleEntry {
   days: (string | null)[];
 }
 
-const weekDays = ["Sun","Mon", "Tue", "Wed", "Thu", "Fri", "Sat",];
-
+const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const CalendarPage: React.FC = () => {
-  const [schedule, setSchedule] = useState<Record<string, boolean[]>>({});
+  const [employeesSchedule, setEmployeesSchedule] = useState<Record<string, boolean[]>>({});
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const [selectedEmployee, setSelectedEmployee] = useState<string | null>(null);
   const [dailySchedule, setDailySchedule] = useState<{ name: string; time: string }[]>([]);
   const router = useRouter();
   const { status } = useSession();
@@ -22,45 +22,46 @@ const CalendarPage: React.FC = () => {
   useEffect(() => {
     async function fetchShifts() {
       try {
-        const shiftsData = await getShifts(); 
-        const employeeSchedule: Record<string, boolean[]> = {};
-        const tempDailySchedule: Record<number, { name: string; time: string }[]> = {};
+        const shiftsData = await getShifts();
+        const tempEmployeesSchedule: Record<string, boolean[]> = {};
+        const tempDailySchedule: Record<string, { name: string; time: string }[]> = {};
 
         shiftsData.forEach((shift: { startDate: string | number | Date; endDate: string | number | Date; }) => {
           const startDate = new Date(shift.startDate);
           const endDate = new Date(shift.endDate);
           const dayOfWeek = startDate.getDay();
           const employeeName = "Employee Name"; 
-          
-          if (!employeeSchedule[employeeName]) {
-            employeeSchedule[employeeName] = new Array(7).fill(false);
-          }
-          employeeSchedule[employeeName][dayOfWeek] = true;
 
-          if (!tempDailySchedule[dayOfWeek]) {
-            tempDailySchedule[dayOfWeek] = [];
+          if (!tempEmployeesSchedule[employeeName]) {
+            tempEmployeesSchedule[employeeName] = new Array(7).fill(false);
+          }
+          tempEmployeesSchedule[employeeName][dayOfWeek] = true;
+
+          const shiftKey = `${employeeName}-${dayOfWeek}`;
+          if (!tempDailySchedule[shiftKey]) {
+            tempDailySchedule[shiftKey] = [];
           }
           const time = `${startDate.toLocaleTimeString()} - ${endDate.toLocaleTimeString()}`;
-          tempDailySchedule[dayOfWeek].push({ name: employeeName, time });
+          tempDailySchedule[shiftKey].push({ name: employeeName, time });
         });
 
-        setSchedule(employeeSchedule);
-        setDailySchedule(Object.entries(tempDailySchedule).reduce((acc, [key, value]) => {
-          if (selectedDay === parseInt(key)) {
-            return value;
-          }
-          return acc;
-        }, [] as { name: string; time: string }[]));
+        setEmployeesSchedule(tempEmployeesSchedule);
+
+        if (selectedDay !== null && selectedEmployee) {
+          const employeeShiftKey = `${selectedEmployee}-${selectedDay}`;
+          setDailySchedule(tempDailySchedule[employeeShiftKey] || []);
+        }
       } catch (error) {
         console.error("Error fetching shifts:", error);
       }
     }
 
     fetchShifts();
-  }, [selectedDay]);
+  }, [selectedDay, selectedEmployee]);
 
-  const handleDayClick = (dayIndex: number) => {
+  const handleDayEmployeeClick = (employee: string, dayIndex: number) => {
     setSelectedDay(dayIndex);
+    setSelectedEmployee(employee);
   };
 
   if (status === "unauthenticated") {
@@ -77,18 +78,18 @@ const CalendarPage: React.FC = () => {
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th className="py-3 px-6">Employee</th>
-                {weekDays.map((day, index) => (
+                {weekDays.map(day => (
                   <th key={day} className="py-3 px-6 text-center">{day}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {Object.entries(schedule).map(([name, daysWorking], i) => (
-                <tr key={name} className={`${i % 2 === 0 ? 'bg-gray-50' : 'bg-white'} border-b dark:bg-gray-800 dark:border-gray-700`}>
+              {Object.entries(employeesSchedule).map(([name, daysWorking]) => (
+                <tr key={name} className="border-b dark:bg-gray-800 dark:border-gray-700">
                   <td className="py-4 px-6">{name}</td>
                   {daysWorking.map((working, dayIndex) => (
-                    <td key={dayIndex} className="py-4 px-6 text-center cursor-pointer" onClick={() => handleDayClick(dayIndex)}>
-                      {working ? '👤' : ''} {}
+                    <td key={dayIndex} className="py-4 px-6 text-center cursor-pointer" onClick={() => handleDayEmployeeClick(name, dayIndex)}>
+                      {working ? '👤' : ''}
                     </td>
                   ))}
                 </tr>
@@ -96,13 +97,17 @@ const CalendarPage: React.FC = () => {
             </tbody>
           </table>
         </div>
-        {selectedDay !== null && (
+        {selectedDay !== null && selectedEmployee && (
           <div className="mt-4 bg-blue-950 shadow-md rounded-lg p-4">
-            <h2 className="font-bold text-lg">Schedule for {weekDays[selectedDay]}:</h2>
+            <h2 className="font-bold text-lg">Schedule for {selectedEmployee} on {weekDays[selectedDay]}:</h2>
             <ul>
-              {dailySchedule.map((entry, index) => (
-                <li key={index}>{entry.name}: {entry.time}</li>
-              )) || <li>No one is scheduled to work this day.</li>}
+              {dailySchedule.length > 0 ? (
+                dailySchedule.map((entry, index) => (
+                  <li key={index}>{entry.name}: {entry.time}</li>
+                ))
+              ) : (
+                <li>No shifts for this day.</li>
+              )}
             </ul>
           </div>
         )}
