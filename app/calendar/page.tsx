@@ -9,7 +9,7 @@ interface ScheduleEntry {
   days: (string | null)[];
 }
 
-const weekDays = ["Sun", "Mon", "Tue", "Wed", "Fri", "Sat", "Sun"];
+const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]; // Corrected the weekDays array
 
 const CalendarPage: React.FC = () => {
   const [selectedShift, setSelectedShift] = useState<{employeeId: number | string; dayOfWeek: number} | null>(null);
@@ -24,7 +24,7 @@ const CalendarPage: React.FC = () => {
         shiftsData.forEach((shift: { startDate: string | number | Date; endDate: string | number | Date; employee_id: any; employee_name: any; }) => {
           const startDate = new Date(shift.startDate);
           const endDate = new Date(shift.endDate);
-          const dayOfWeek = startDate.getDay(); 
+          const dayOfWeek = startDate.getDay();
           const time = `${startDate.toLocaleTimeString()} - ${endDate.toLocaleTimeString()}`;
           const employeeId = shift.employee_id;
 
@@ -69,9 +69,10 @@ const CalendarPage: React.FC = () => {
         <h1 className="text-xl font-semibold mb-4 text-center">Weekly Calendar</h1>
         {Object.entries(schedule).map(([employeeId, days]) => (
           <div key={employeeId} className="w-full max-w-md mx-auto mb-4">
-            <div className="font-bold">{days[parseInt(Object.keys(days)[0])][0].name}</div>
+            {}
+            <div className="font-bold">{Object.values(days)[0][0].name}</div>
             <div className="flex justify-between">
-              {weekDays.map((_, dayIndex) => {
+              {weekDays.map((day, dayIndex) => {
                 const isActiveDay = days[dayIndex] !== undefined;
                 return (
                   <div key={dayIndex} className={`py-4 px-6 text-center cursor-pointer ${isActiveDay ? "text-blue-500" : "text-gray-500"}`} onClick={() => isActiveDay && setSelectedShift({employeeId, dayOfWeek: dayIndex})}>
