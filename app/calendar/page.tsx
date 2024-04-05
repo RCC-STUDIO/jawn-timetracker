@@ -9,7 +9,7 @@ interface ScheduleEntry {
   days: (string | null)[];
 }
 
-const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 interface Shift {
   startDate: string;
