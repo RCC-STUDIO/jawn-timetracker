@@ -70,7 +70,7 @@ const CalendarPage: React.FC = () => {
         {/* Weekly Calendar Header */}
         <div className="w-full max-w-md mx-auto mb-4">
           <div className="grid grid-cols-8 gap-4">
-            <div className="col-span-1 text-center">Employee</div>
+            <div className="col-span-1 text-center">Emp</div>
             {weekDays.map((day, index) => (
               <div key={index} className="col-span-1 text-center">{day}</div>
             ))}
