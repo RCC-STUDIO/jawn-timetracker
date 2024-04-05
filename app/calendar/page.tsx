@@ -12,28 +12,39 @@ interface ScheduleEntry {
 const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const CalendarPage: React.FC = () => {
-  const [shiftsByEmployee, setShiftsByEmployee] = useState<Record<string, { [key: number]: string[] }>>({});
-  const [selectedShift, setSelectedShift] = useState<{ employee: string; day: number } | null>(null);
+  const [employeesSchedule, setEmployeesSchedule] = useState<Record<string, boolean[]>>({});
+  const [employeeShiftDetails, setEmployeeShiftDetails] = useState<Record<string, { name: string; time: string }[]>>({});
+  const router = useRouter();
   const { status } = useSession();
 
   useEffect(() => {
     async function fetchShifts() {
       try {
         const shiftsData = await getShifts();
-        const tempShifts: Record<string, { [key: number]: string[] }> = {};
+        const tempEmployeesSchedule: Record<string, boolean[]> = {};
+        const tempEmployeeShiftDetails: Record<string, { name: string; time: string }[]> = {};
 
         shiftsData.forEach((shift: { startDate: string | number | Date; endDate: string | number | Date; employeeName: string }) => {
           const startDate = new Date(shift.startDate);
           const endDate = new Date(shift.endDate);
           const dayOfWeek = startDate.getDay();
-          const time = `${startDate.toLocaleTimeString()} - ${endDate.toLocaleTimeString()}`;
+          const { employeeName } = shift; 
 
-          tempShifts[shift.employeeName] = tempShifts[shift.employeeName] || {};
-          tempShifts[shift.employeeName][dayOfWeek] = tempShifts[shift.employeeName][dayOfWeek] || [];
-          tempShifts[shift.employeeName][dayOfWeek].push(time);
+          if (!tempEmployeesSchedule[employeeName]) {
+            tempEmployeesSchedule[employeeName] = new Array(7).fill(false);
+          }
+          tempEmployeesSchedule[employeeName][dayOfWeek] = true;
+
+          const shiftKey = `${employeeName}-${dayOfWeek}`;
+          if (!tempEmployeeShiftDetails[shiftKey]) {
+            tempEmployeeShiftDetails[shiftKey] = [];
+          }
+          const time = `${startDate.toLocaleTimeString()} - ${endDate.toLocaleTimeString()}`;
+          tempEmployeeShiftDetails[shiftKey].push({ name: employeeName, time });
         });
 
-        setShiftsByEmployee(tempShifts);
+        setEmployeesSchedule(tempEmployeesSchedule);
+        setEmployeeShiftDetails(tempEmployeeShiftDetails);
       } catch (error) {
         console.error("Error fetching shifts:", error);
       }
@@ -42,11 +53,14 @@ const CalendarPage: React.FC = () => {
     fetchShifts();
   }, []);
 
-  const handleDayClick = (employee: string, day: number) => {
-    setSelectedShift({ employee, day });
+  const handleDayClick = (employee: string, dayIndex: number) => {
+    const employeeShiftKey = `${employee}-${dayIndex}`;
+    const dailySchedule = employeeShiftDetails[employeeShiftKey] || [];
+    setEmployeeShiftDetails({ ...employeeShiftDetails, [employeeShiftKey]: dailySchedule });
   };
 
   if (status === "unauthenticated") {
+    router.push('/login');
     return null;
   }
 
@@ -65,31 +79,35 @@ const CalendarPage: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {Object.entries(shiftsByEmployee).map(([employeeName, days]) => (
-                <tr key={employeeName}>
-                  <td className="py-4 px-6">{employeeName}</td>
-                  {weekDays.map((_, dayIndex) => (
-                    <td key={dayIndex} className="py-4 px-6 text-center">
-                      {days[dayIndex] ? (
-                        <button onClick={() => handleDayClick(employeeName, dayIndex)}>{}👤</button>
-                      ) : ''}
-                    </td>
+              {Object.entries(employeesSchedule).map(([name, daysWorking]) => (
+                <React.Fragment key={name}>
+                  <tr className="border-b dark:bg-gray-800 dark:border-gray-700">
+                    <td className="py-4 px-6">{name}</td>
+                    {daysWorking.map((working, dayIndex) => (
+                      <td key={dayIndex} className="py-4 px-6 text-center cursor-pointer" onClick={() => handleDayClick(name, dayIndex)}>
+                        {working ? '👤' : ''}
+                      </td>
+                    ))}
+                  </tr>
+                  {}
+                  {daysWorking.map((working, dayIndex) => (
+                    working ? (
+                      <tr key={`${name}-${dayIndex}-details`} className="border-b dark:bg-gray-700 dark:border-gray-700">
+                        <td className="py-4 px-6 text-center" colSpan={8}>
+                          <ul>
+                            {(employeeShiftDetails[`${name}-${dayIndex}`] || []).map((entry, index) => (
+                              <li key={index}>{entry.name}: {entry.time}</li>
+                            ))}
+                          </ul>
+                        </td>
+                      </tr>
+                    ) : null
                   ))}
-                </tr>
+                </React.Fragment>
               ))}
             </tbody>
           </table>
         </div>
-        {selectedShift && shiftsByEmployee[selectedShift.employee][selectedShift.day] && (
-          <div className="mt-4 bg-blue-950 shadow-md rounded-lg p-4">
-            <h2 className="font-bold text-lg">Shifts for {selectedShift.employee} on {weekDays[selectedShift.day]}:</h2>
-            <ul>
-              {shiftsByEmployee[selectedShift.employee][selectedShift.day].map((time, index) => (
-                <li key={index}>{time}</li>
-              ))}
-            </ul>
-          </div>
-        )}
       </div>
     </main>
   );
