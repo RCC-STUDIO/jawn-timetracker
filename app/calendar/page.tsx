@@ -19,17 +19,17 @@ const CalendarPage: React.FC = () => {
   useEffect(() => {
     async function fetchShifts() {
       try {
-        const shiftsData = await getShifts(); // Your API call here
+        const shiftsData = await getShifts(); 
         const tempEmployeeWorkDays: Record<string, boolean[]> = {};
 
         shiftsData.forEach((shift: { startDate: string | number | Date; }) => {
-          const dayOfWeek = new Date(shift.startDate).getDay(); // JS days: Sunday - 0, Monday - 1, etc.
-          const employeeName = "Employee Name"; // Assuming you have a way to get the employee's name here
+          const dayOfWeek = new Date(shift.startDate).getDay(); 
+          const employeeName = "Employee Name"; 
 
           if (!tempEmployeeWorkDays[employeeName]) {
-            tempEmployeeWorkDays[employeeName] = new Array(7).fill(false); // Initialize with false (not working)
+            tempEmployeeWorkDays[employeeName] = new Array(7).fill(false); 
           }
-          tempEmployeeWorkDays[employeeName][dayOfWeek] = true; // Mark as working on this day
+          tempEmployeeWorkDays[employeeName][dayOfWeek] = true; 
         });
 
         setEmployeeWorkDays(tempEmployeeWorkDays);
@@ -66,7 +66,7 @@ const CalendarPage: React.FC = () => {
                   <td className="py-4 px-6">{name}</td>
                   {daysWorking.map((working, index) => (
                     <td key={index} className="py-4 px-6 text-center">
-                      {working ? '👤' : ''} {/* Replace '👤' with your preferred icon */}
+                      {working ? '👤' : ''} {}
                     </td>
                   ))}
                 </tr>
