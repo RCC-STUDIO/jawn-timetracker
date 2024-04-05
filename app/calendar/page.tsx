@@ -89,7 +89,7 @@ const CalendarPage: React.FC = () => {
                   <td className="py-4 px-6">{name}</td>
                   {daysWorking.map((working, dayIndex) => (
                     <td key={dayIndex} className="py-4 px-6 text-center cursor-pointer" onClick={() => handleDayEmployeeClick(name, dayIndex)}>
-                      {working ? '👤' : ''}
+                      {working ? '👤' : ''} {}
                     </td>
                   ))}
                 </tr>
