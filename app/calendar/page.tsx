@@ -9,10 +9,10 @@ interface ScheduleEntry {
   days: (string | null)[];
 }
 
-const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]; // Corrected the weekDays array
+const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const CalendarPage: React.FC = () => {
-  const [selectedShift, setSelectedShift] = useState<{employeeId: number | string; dayOfWeek: number} | null>(null);
+  const [selectedShift, setSelectedShift] = useState<{ employeeId: number | string; dayOfWeek: number } | null>(null);
   const [schedule, setSchedule] = useState<Record<string, Record<number, { name: string; time: string }[]>>>({});
 
   useEffect(() => {
@@ -67,15 +67,24 @@ const CalendarPage: React.FC = () => {
     return (
       <main className="flex flex-col min-h-screen items-center justify-between p-5">
         <h1 className="text-xl font-semibold mb-4 text-center">Weekly Calendar</h1>
+        {/* Weekly Calendar Header */}
+        <div className="w-full max-w-md mx-auto mb-4">
+          <div className="flex justify-between">
+            <div className="py-4 px-6">Employee</div>
+            {weekDays.map((day, index) => (
+              <div key={index} className="py-4 px-6 text-center">{day}</div>
+            ))}
+          </div>
+        </div>
+        {/* Employee Rows */}
         {Object.entries(schedule).map(([employeeId, days]) => (
           <div key={employeeId} className="w-full max-w-md mx-auto mb-4">
-            {}
-            <div className="font-bold">{Object.values(days)[0][0].name}</div>
             <div className="flex justify-between">
+              <div className="py-4 px-6 font-bold">{Object.values(days)[0][0].name}</div>
               {weekDays.map((day, dayIndex) => {
                 const isActiveDay = days[dayIndex] !== undefined;
                 return (
-                  <div key={dayIndex} className={`py-4 px-6 text-center cursor-pointer ${isActiveDay ? "text-blue-500" : "text-gray-500"}`} onClick={() => isActiveDay && setSelectedShift({employeeId, dayOfWeek: dayIndex})}>
+                  <div key={dayIndex} className={`py-4 px-6 text-center cursor-pointer ${isActiveDay ? "text-blue-500" : "text-gray-500"}`} onClick={() => isActiveDay && setSelectedShift({ employeeId, dayOfWeek: dayIndex })}>
                     {isActiveDay ? "🟢" : "⚪️"}
                   </div>
                 );
