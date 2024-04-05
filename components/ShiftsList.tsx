@@ -27,9 +27,9 @@ interface Department {
   _id: String
 }
 
-export default function ShiftList() {
+export default function ShiftList({ email }: { email: string }) {
   const { status, data: session } = useSession();
-  const userEmail = session?.user?.email;
+  const userEmail = email || session?.user?.email;
   const shiftStyle = "flex flex row justify-between";
   const [modalState, setModalState] = useState(-1);
   const [shifts, setShifts] = useState<Shift[]>([]);
