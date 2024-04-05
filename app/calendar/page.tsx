@@ -69,22 +69,24 @@ const CalendarPage: React.FC = () => {
         <h1 className="text-xl font-semibold mb-4 text-center">Weekly Calendar</h1>
         {/* Weekly Calendar Header */}
         <div className="w-full max-w-md mx-auto mb-4">
-          <div className="flex justify-between">
-            <div className="py-4 px-6">Employee</div>
+          <div className="grid grid-cols-8 gap-4">
+            <div className="col-span-1 text-center">Employee</div>
             {weekDays.map((day, index) => (
-              <div key={index} className="py-4 px-6 text-center">{day}</div>
+              <div key={index} className="col-span-1 text-center">{day}</div>
             ))}
           </div>
         </div>
         {/* Employee Rows */}
         {Object.entries(schedule).map(([employeeId, days]) => (
           <div key={employeeId} className="w-full max-w-md mx-auto mb-4">
-            <div className="flex justify-between">
-              <div className="py-4 px-6 font-bold">{Object.values(days)[0][0].name}</div>
+            <div className="grid grid-cols-8 gap-4">
+              {/* Employee Name */}
+              <div className="col-span-1 font-bold text-center">{Object.values(days)[0][0].name}</div>
+              {/* Days of the week */}
               {weekDays.map((day, dayIndex) => {
                 const isActiveDay = days[dayIndex] !== undefined;
                 return (
-                  <div key={dayIndex} className={`py-4 px-6 text-center cursor-pointer ${isActiveDay ? "text-blue-500" : "text-gray-500"}`} onClick={() => isActiveDay && setSelectedShift({ employeeId, dayOfWeek: dayIndex })}>
+                  <div key={dayIndex} className={`col-span-1 py-2 text-center cursor-pointer ${isActiveDay ? "text-blue-500" : "text-gray-500"}`} onClick={() => isActiveDay && setSelectedShift({ employeeId, dayOfWeek: dayIndex })}>
                     {isActiveDay ? "🟢" : "⚪️"}
                   </div>
                 );
