@@ -18,7 +18,7 @@ interface Shift {
 export default function ShiftList() {
 
   
-  const shiftStyle = "flex flex row justify-between";
+  const shiftStyle = "flex flex row justify-between ";
   const [shifts, setShifts] = useState<Shift[]>([]);
   const [modalState, setModalState] = useState(-1);
 
@@ -44,8 +44,8 @@ export default function ShiftList() {
   return (
     <>
       {shifts.map((shift, key) => (
-        <div className="flex flex-row border-2 rounded-lg w-full text-left p-4 m-2" key={shift._id}>
-          <div>
+        <div className="flex flex-row border-2 rounded-lg w-full p-4 m-2" key={shift._id}>
+          <div className="w-full items-center">
             <div onClick={() => toggleModal(key)} className="flex flex-col w-full">
               <div className={shiftStyle}>
                 <h2>Start Date:</h2>
