@@ -25,12 +25,14 @@ export default function App() {
   const userEmail = session?.user?.email;
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [department, setDepartment] = useState("");
-  const [employee_id, setEmployee_id] = useState("");
+  const [employeeId, setEmployeeId] = useState("");
+  const [employeeName, setEmployeeName] = useState("");
 
   useEffect(() => {
     async function fetchShifts() {
       try {
         let employee_id = "";
+        let employee_name = "";
         let department_name = "";
         // get all employees and departments
         let employees = await getEmployees();
@@ -40,6 +42,7 @@ export default function App() {
         for (let i = 0; i < employees.length; i++) {
           if (employees[i].email == userEmail) {
             employee_id = employees[i]._id;
+            employee_name = employees[i].firstName + " " + employees[i].lastName;
             // find department by matching the department_id
             for (let j = 0; j < departments.length; j++) {
               if (departments[j]._id == employees[i].department_id) {
@@ -49,7 +52,8 @@ export default function App() {
             }
           }
         }
-        setEmployee_id(employee_id);
+        setEmployeeId(employee_id);
+        setEmployeeName(employee_name);
         setDepartment(department_name);
       } catch (error) {
         console.error("Error fetching shifts:", error);
@@ -67,13 +71,13 @@ export default function App() {
               <main className="min-h-screen justify-between p-5">
                 <div className="flex flex-col justify-center text-center p-7">
                   <div className='flex flex-col rounded-md shadow-inner bg-blue-950 w-full'>
-                  <h1 className="text-3xl py-5 font-semibold">{session?.user?.name}</h1>
+                  <h1 className="text-3xl py-5 font-semibold">{employeeName}</h1>
                     <div className="flex justify-center px-16">
                       <img className="rounded-full" src={session?.user?.image ?? "../public/images/profile_icon.jpg"} alt={session?.user?.name + "'s Profile Photo"} width={450} height={450}/>
                     </div>
                       <div className="mt-3 p-4">
                         <p className="text-m p-2">Department: {department}</p>
-                        <p className="text-m p-2">Employee ID: {employee_id}</p>
+                        <p className="text-m p-2">Employee ID: {employeeId}</p>
                         <p className=' text-sm p-2'>Email: {session?.user?.email}</p>
                       </div>
                   </div>

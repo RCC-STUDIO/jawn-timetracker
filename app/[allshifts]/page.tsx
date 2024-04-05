@@ -103,20 +103,30 @@ export default function AllShifts() {
     <div className=" items-center text-center">
       <h1 className="text-2xl font-bold p-4">SELECT SHIFT TO SWAP</h1>
       <div className="border rounded-md bg-blue-950 p-4 m-4 border-blue-950">
-        {shifts.map((shift, key) => (
+        {shifts.map((shift, key) => {
+          const allMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+          const startDate = new Date(shift.startDate);
+          const endDate = new Date(shift.endDate);
+          const shiftDay = startDate.getDate();
+          const shiftMonth = startDate.getMonth();
+          const shiftYear = startDate.getFullYear();
+          return (
           <div key={shift._id}>
             <div className="flex flex-col border-2 rounded-lg text-left p-4 my-4">
               <div
                 onClick={() => toggleModal(key)}
-                className="flex flex-col w-full"
-              >
+                className="flex flex-col w-full">
+                <div className={shiftStyle}>
+                  <h2>Day:</h2>
+                  <p>{allMonths[shiftMonth]} {shiftDay}, {shiftYear}</p>
+                </div>
                 <div className={shiftStyle}>
                   <h2>Start Date:</h2>
-                  <p>{shift.startDate}</p>
+                  <p>{startDate.toLocaleTimeString()}</p>
                 </div>
                 <div className={shiftStyle}>
                   <h2>End Date:</h2>
-                  <p>{shift.endDate}</p>
+                  <p>{endDate.toLocaleTimeString()}</p>
                 </div>
                 <div className={shiftStyle}>
                   <h2>Employee:</h2>
@@ -134,7 +144,7 @@ export default function AllShifts() {
               {modalState === key && <ShiftRequest shiftId={shift._id}/>}
             </div>
           </div>
-        ))}
+        )})}
       </div>
     </div>
   );

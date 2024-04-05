@@ -1,9 +1,10 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import { getShifts } from '@/libs/dbAccess';
+import { getEmployees, getShifts } from '@/libs/dbAccess';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+
 interface ScheduleEntry {
   name: string;
   days: (string | null)[];
@@ -27,38 +28,81 @@ interface Shift {
   _id: string;
 }
 
+interface Employee {
+  firstName: String,
+  lastName: String,
+  email: String,
+  department_id: String,
+  isManager: Boolean,
+  _id: String
+}
+
 const CalendarPage: React.FC = () => {
+  const router = useRouter();
+  const { status, data: session } = useSession();
+  const userEmail = session?.user?.email
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const [employees, setEmployees] = useState<Employee[]>([]);
   const [shifts, setShifts] = useState<Shift[]>([])
+  const [departmentId, setDepartmentId] = useState<string>("");
+
 
   useEffect(() => {
     async function fetchShifts() {
       try {
         const shiftsData = await getShifts();
-        const userShifts = shiftsData.filter((shift: Shift) => shift.employee_id);
+        const employees = await getEmployees();
+        let department_id = "";
+        for (let i = 0; i < employees.length; i++) {
+          if (employees[i].email == session?.user?.email) {
+            department_id = employees[i].department_id;
+          }
+        }
 
-        setShifts(userShifts);
+        let departmentShifts = shiftsData.filter((shift: Shift) => shift.department_id == department_id);
+
+        setDepartmentId(department_id);
+        setEmployees(employees);
+        setShifts(departmentShifts);
       } catch (error) {
         console.error("Error fetching shifts:", error);
       }
     }
     fetchShifts();
-  }, []);
+  }, [userEmail, departmentId]);
+
+  function getEmployeeName(employee_id: string) {
+    let employeeName = "";
+    for (let i = 0; i < employees.length; i++) {
+      if (employees[i]._id == employee_id) {
+        employeeName = employees[i].firstName + " " + employees[i].lastName;
+      }
+    }
+    return employeeName;
+  }
 
   const renderDayDetails = (dayIndex: number) => {
     return (
       <div className="mt-4 bg-blue-950 shadow-md rounded-lg p-4">
         <h2 className="font-bold text-lg">Schedule for {weekDays[dayIndex]}:</h2>
         <ul>
-          {fakeSchedule.map((entry, index) => (
-            entry.days[dayIndex] ? <li key={index}>{entry.name}: {entry.days[dayIndex]}</li> : null
-          ))}
+          {shifts.map((shift, index) => {
+            const startDate = new Date(shift.startDate);
+            const endDate = new Date(shift.endDate);
+            const shiftDay = startDate.getDate();
+            if (shiftDay === dayIndex + 1) {
+              return (
+                <li key={index}>{getEmployeeName(shift.employee_id) }: {startDate.toLocaleTimeString()} - {endDate.toLocaleTimeString()}</li>
+              );
+            }
+            return null;
+          })}
+
         </ul>
       </div>
     );
   };
-  const router = useRouter();
-  const { status, data: session } = useSession();
+
 
   // If the user is not authenticated get routed to main home page
   if (status === "unauthenticated"){
