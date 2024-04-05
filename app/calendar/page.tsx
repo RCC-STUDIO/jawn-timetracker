@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import { getShifts as fetchShifts } from '@/libs/dbAccess'; 
+import { getShifts } from '@/libs/dbAccess';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 interface ScheduleEntry {
@@ -9,80 +9,64 @@ interface ScheduleEntry {
   days: (string | null)[];
 }
 
-const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]; 
-
-const employeeNames = {
-  // "employee_id": "Employee Name",,
-};
-
-
-async function getShifts() {
-  return [
-    { startDate: new Date('2024-04-03T09:00:00'), endDate: new Date('2024-04-03T17:00:00'), employee_id: '1' },
-  ];
-}
+const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 const CalendarPage: React.FC = () => {
-  const [employeeSchedule, setEmployeeSchedule] = useState<Record<string, boolean[]>>({});
+  const [employeeWorkDays, setEmployeeWorkDays] = useState<Record<string, boolean[]>>({});
   const router = useRouter();
   const { status } = useSession();
 
   useEffect(() => {
     async function fetchShifts() {
       try {
-        const employeeNames: Record<string, string> = {
-          // "employee_id": "Employee Name",
-        };
+        const shiftsData = await getShifts(); // Your API call here
+        const tempEmployeeWorkDays: Record<string, boolean[]> = {};
 
-        const shiftsData = await getShifts();
-        const tempEmployeeSchedule: Record<string, boolean[]> = {};
+        shiftsData.forEach((shift: { startDate: string | number | Date; }) => {
+          const dayOfWeek = new Date(shift.startDate).getDay(); // JS days: Sunday - 0, Monday - 1, etc.
+          const employeeName = "Employee Name"; // Assuming you have a way to get the employee's name here
 
-        shiftsData.forEach(({ startDate, employee_id }) => {
-          const dayOfWeek = new Date(startDate).getDay(); 
-          const employeeName = employeeNames[employee_id] || `Employee ${employee_id}`; 
-
-          if (!tempEmployeeSchedule[employeeName]) {
-            tempEmployeeSchedule[employeeName] = Array(7).fill(false); 
+          if (!tempEmployeeWorkDays[employeeName]) {
+            tempEmployeeWorkDays[employeeName] = new Array(7).fill(false); // Initialize with false (not working)
           }
-
-          tempEmployeeSchedule[employeeName][dayOfWeek] = true;
+          tempEmployeeWorkDays[employeeName][dayOfWeek] = true; // Mark as working on this day
         });
 
-        setEmployeeSchedule(tempEmployeeSchedule);
+        setEmployeeWorkDays(tempEmployeeWorkDays);
       } catch (error) {
         console.error("Error fetching shifts:", error);
       }
     }
-    
+
     fetchShifts();
   }, []);
 
   if (status === "unauthenticated") {
-    router.push(`/login`);
+    router.push('/login');
     return null;
   }
 
   return (
     <main className="flex flex-col min-h-screen items-center justify-between p-5">
       <div className="w-full max-w-xl mx-auto">
-        <h1 className="text-xl font-semibold mb-4 text-center">Employee Weekly Schedule</h1>
+        <h1 className="text-xl font-semibold mb-4 text-center">Weekly Calendar</h1>
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
-                <th scope="col" className="py-3 px-6">Employee</th>
-                {weekDays.map(day => (
-                  <th key={day} scope="col" className="py-3 px-1 text-center">{day}</th>
+                <th className="py-3 px-6">Employee</th>
+                {weekDays.map((day) => (
+                  <th key={day} className="py-3 px-6 text-center">{day}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {Object.entries(employeeSchedule).map(([name, days], index) => (
-                <tr key={name} className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} border-b dark:bg-gray-800 dark:border-gray-700`}>
+              {Object.entries(employeeWorkDays).map(([name, daysWorking], i) => (
+                <tr key={name} className={`${i % 2 === 0 ? 'bg-gray-50' : 'bg-white'} border-b dark:bg-gray-800 dark:border-gray-700`}>
                   <td className="py-4 px-6">{name}</td>
-                  {days.map((working, dayIndex) => (
-                    <td key={dayIndex} className="py-4 px-6 text-center">
-                      {working ? '👤' : ''} {}
+                  {daysWorking.map((working, index) => (
+                    <td key={index} className="py-4 px-6 text-center">
+                      {working ? '👤' : ''} {/* Replace '👤' with your preferred icon */}
                     </td>
                   ))}
                 </tr>
