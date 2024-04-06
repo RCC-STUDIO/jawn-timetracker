@@ -7,6 +7,10 @@ export default function App() {
   const router = useRouter();
   const { status, data: session } = useSession();
 
+  const navigateToSignOut = () => {
+    //Route to SignOut Page
+    router.push(`/api/auth/signout`);
+  }
   // If the user is not authenticated get routed to main home page
   if (status === "unauthenticated"){
     router.push(`/login`);
@@ -23,6 +27,7 @@ export default function App() {
                         <p className="text-m p-2">Department Name</p>
                         <p className="text-m p-2">User ID</p>
                         <p className=' text-sm p-2'>{session?.user?.email}</p>
+                        <button className="bg-blue-50 text-blue-950 mt-3 p-3 rounded-md w-full" onClick={navigateToSignOut}>Sign Out</button>
                       </div>
                   </div>
                   <SwapRequests/>
