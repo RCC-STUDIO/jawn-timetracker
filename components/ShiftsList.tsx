@@ -90,46 +90,35 @@ export default function ShiftList({ email }: { email: any }) {
 
   return (
     <>
-      {shifts.map((shift, key) => {
-        const allMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        const startDate = new Date(shift.startDate);
-        const endDate = new Date(shift.endDate);
-        const shiftDay = startDate.getDate();
-        const shiftMonth = startDate.getMonth();
-        const shiftYear = startDate.getFullYear();
-        return (
-          <div className="flex flex-row border-2 rounded-lg w-full text-left p-4 m-2" key={shift._id}>
-            <div>
-              <div onClick={() => toggleModal(key)} className="flex flex-col w-full">
-                <div className={shiftStyle}>
-                  <h2>Day:</h2>
-                  <p>{allMonths[shiftMonth]} {shiftDay}, {shiftYear}</p>
-                </div>
-                <div className={shiftStyle}>
-                  <h2>Start Date:</h2>
-                  <p>{startDate.toLocaleTimeString()}</p>
-                </div>
-                <div className={shiftStyle}>
-                  <h2>End Date:</h2>
-                  <p>{endDate.toLocaleTimeString()}</p>
-                </div>
-                <div className={shiftStyle}>
-                  <h2>Employee:</h2>
-                  <p>{getEmployeeName(shift.employee_id)}</p>
-                </div>
-                <div className={shiftStyle}>
-                  <h2>Department:</h2>
-                  <p>{getDepartmentName(shift.department_id)}</p>
-                </div>
-                <div className={shiftStyle}>
-                  <h2>Status:</h2>
-                  <p>{shift.status}</p>
-                </div>
+      {shifts.map((shift, key) => (
+        <div className="flex flex-row border-2 rounded-lg w-full p-4 m-2" key={shift._id}>
+          <div className="w-full items-center">
+            <div onClick={() => toggleModal(key)} className="flex flex-col w-full">
+              <div className={shiftStyle}>
+                <h2>Start Date:</h2>
+                <p>{new Date(shift.startDate).toLocaleString()}</p> {/* Format date */}
+              </div>
+              <div className={shiftStyle}>
+                <h2>End Date:</h2>
+                <p>{new Date(shift.endDate).toLocaleString()}</p> {/* Format date */}
+              </div>
+              <div className={shiftStyle}>
+                <h2>Employee:</h2>
+                <p>{getEmployeeName(shift.employee_id)}</p> {/* Use function */}
+              </div>
+              <div className={shiftStyle}>
+                <h2>Department:</h2>
+                <p>{getDepartmentName(shift.department_id)}</p> {/* Use function */}
+              </div>
+              <div className={shiftStyle}>
+                <h2>Status:</h2>
+                <p>{shift.status}</p>
               </div>
               {modalState === key && <ShiftRequest shiftId={shift._id}/>}
             </div>
           </div> 
-      )})}
+        </div>
+      ))}
     </>
-  );
+  )
 }
