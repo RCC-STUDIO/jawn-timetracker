@@ -79,11 +79,11 @@ export default function App() {
                     <div className="flex justify-center px-16">
                       <img className="rounded-full" src={session?.user?.image ?? "../public/images/profile_icon.jpg"} alt={session?.user?.name + "'s Profile Photo"} width={450} height={450}/>
                     </div>
-                      <div className="mt-3 p-4">
-                        <p className="text-m p-2">Department Name</p>
-                        <p className="text-m p-2">User ID</p>
+                      <div className="p-2">
+                        <p className="text-m p-2"> Department: {department}</p>
+                        <p className="text-m p-2">ID: {employeeId}</p>
                         <p className=' text-sm p-2'>{session?.user?.email}</p>
-                        <button className="bg-blue-50 text-blue-950 mt-3 p-3 rounded-md w-full" onClick={navigateToSignOut}>Sign Out</button>
+                        <button className="bg-blue-50 text-blue-950 my-3 p-3 rounded-md w-2/3" onClick={navigateToSignOut}>Sign Out</button>
                       </div>
                   </div>
                   <SwapRequests/>

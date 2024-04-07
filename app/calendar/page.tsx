@@ -40,8 +40,13 @@ interface Department {
 
 export default function Calendar() {
   const { status, data: session } = useSession();
+  // MODAL RELATED
   const [modal, setModal] = useState(false)
   const [modalData, setModalData] = useState<Shift>()
+  const [employeeName, setEmployeeName] = useState("")
+  const [department, setDepartment] = useState("")
+
+  // DATABASE RELATED
   const [shifts, setShifts] = useState<Shift[]>([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
@@ -52,33 +57,23 @@ export default function Calendar() {
   useEffect(() => {
     async function fetchShifts() {
       try {
-        let employee_id = "";
+        // get all shifts
         const shiftsData = await getShifts();
-        // get all employees and departments
-        let employees = await getEmployees();
-        setEmployees(employees);
-        let departments = await getDepartments();
-        setDepartments(departments);
-        // find employee by matching the email
-        for (let i = 0; i < employees.length; i++) {
-          if (employees[i].email == userEmail) {
-            employee_id = employees[i]._id;
-          }
-        }
-
-        const userShifts = shiftsData.filter((shift: Shift) => shift.employee_id == employee_id);
-
-        setShifts(userShifts);
+        setShifts(shiftsData)
+        const employees = await getEmployees();
+        setEmployees(employees);     
       } catch (error) {
         console.error("Error fetching shifts:", error);
       }
     }
     fetchShifts();
-  }, [userEmail]);
+  }, []);
 
-  const modalDisplay = (shift: Shift) => {
+  const modalDisplay = (shift: Shift, dept: string, employee: string) => {
     setModal(true)
     setModalData(shift)
+    setDepartment(dept)
+    setEmployeeName(employee)
     
   }
 
@@ -94,11 +89,11 @@ export default function Calendar() {
               <td className="border border-white text-center bg-blue-950 font-bold py-2 px-3">{day} {index + 10}</td>
             ))}
           </tr>
-          {fakeSchedule.map((shift, index) => (
+          {employees.map((employee, index) => (
             <tr className="border border-white">
-              <td className="border border-white p-1 bg-blue-950">employee name</td> 
-              {shifts.map((data, index) => (
-                <td onClick={() => modalDisplay(data)} className="border border-blue-950 p-1 bg-blue-50 text-black text-center px-5">{data ? "🟢" : ""}</td>
+              <td className="border border-white p-1 bg-blue-950">{employee.firstName} {employee.lastName}</td>
+              {shifts.filter((shift) => shift.employee_id === employee._id).map((shiftData) => (
+                  <td onClick={() => modalDisplay(shiftData, "departmentName", employee.firstName + " " + employee.lastName)} className="border border-blue-950 p-1 bg-blue-50 text-black text-center px-5">{shiftData._id ? "🟢" : ""}</td>
               ))}
             </tr>
           ))}
@@ -106,7 +101,7 @@ export default function Calendar() {
       </table>
     </div>
     {modal === true && (
-        <ShiftDataModal shiftData={modalData}/>
+        <ShiftDataModal shiftData={modalData} deptName={department} employeeName={employeeName}/>
       )}
       </div>
   </main>
