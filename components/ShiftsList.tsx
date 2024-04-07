@@ -27,10 +27,11 @@ interface Department {
   _id: String
 }
 
-export default function ShiftList() {
+export default function ShiftList({ email }: { email: any }) {
+  
+  const shiftStyle = "flex flex row justify-between ";
   const { status, data: session } = useSession();
-  const userEmail = session?.user?.email;
-  const shiftStyle = "flex flex row justify-between";
+  const userEmail = email || session?.user?.email;
   const [modalState, setModalState] = useState(-1);
   const [shifts, setShifts] = useState<Shift[]>([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -61,7 +62,7 @@ export default function ShiftList() {
       }
     }
     fetchShifts();
-  }, [userEmail]);
+  }, [session?.user?.email]);
 
   const toggleModal = (key: number) => {
     setModalState((previous) => (previous === key ? -1 : key));
