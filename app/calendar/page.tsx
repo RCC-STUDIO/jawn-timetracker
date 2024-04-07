@@ -51,7 +51,7 @@ export default function Calendar() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   
-  const weekDays = ["Sun.", "Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat."]
+  const weekDays = ["Sun. 31", "Mon. 1", "Tue. 2", "Wed. 3", "Thu. 4", "Fri. 5", "Sat. 6"]
   const userEmail = session?.user?.email;
 
   useEffect(() => {
@@ -86,15 +86,25 @@ export default function Calendar() {
           <tr>
           <td className="border border-white text-center bg-blue-950 font-bold py-2 px-3"></td>
             {weekDays.map((day, index) => (
-              <td className="border border-white text-center bg-blue-950 font-bold py-2 px-3">{day} {index + 10}</td>
+              <td key={index} className="border border-white text-center bg-blue-950 font-bold py-2 px-3">{day}</td>
             ))}
           </tr>
           {employees.map((employee, index) => (
-            <tr className="border border-white">
-              <td className="border border-white p-1 bg-blue-950">{employee.firstName} {employee.lastName}</td>
-              {shifts.filter((shift) => shift.employee_id === employee._id).map((shiftData) => (
-                  <td onClick={() => modalDisplay(shiftData, "departmentName", employee.firstName + " " + employee.lastName)} className="border border-blue-950 p-1 bg-blue-50 text-black text-center px-5">{shiftData._id ? "🟢" : ""}</td>
-              ))}
+            <tr key={index} className="border border-white">
+              <td key={index} className="border border-white p-1 bg-blue-950">{employee.firstName} {employee.lastName}</td>
+              {weekDays.map((day, index) => {
+                const userShifts = shifts.filter((shift) => shift.employee_id === employee._id)
+                const weekdayShifts = userShifts.filter((shift) => new Date(shift.startDate).getDay() === index)
+                if (weekdayShifts.length > 0) {
+                  return (
+                    <td key={index} onClick={() => modalDisplay(weekdayShifts[0], "departmentName", employee.firstName + " " + employee.lastName)} className="border border-blue-950 p-1 bg-blue-50 text-black text-center px-5">{weekdayShifts[0]._id ? "🟢" : ""}</td>
+                  )
+                } else {
+                  return (
+                    <td key={index} className="border border-blue-950 p-1 bg-blue-50 text-black text-center px-5"></td>
+                  )
+                }
+              })}
             </tr>
           ))}
         </tbody>
