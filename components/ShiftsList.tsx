@@ -27,8 +27,7 @@ interface Department {
   _id: String
 }
 
-export default function ShiftList() {
-
+export default function ShiftList({ email }: { email: any }) {
   
   const shiftStyle = "flex flex row justify-between ";
   const { status, data: session } = useSession();
@@ -63,7 +62,7 @@ export default function ShiftList() {
       }
     }
     fetchShifts();
-  }, [userEmail]);
+  }, [session?.user?.email]);
 
   const toggleModal = (key: number) => {
     setModalState((previous) => (previous === key ? -1 : key));
