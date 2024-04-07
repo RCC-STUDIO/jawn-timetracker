@@ -25,6 +25,7 @@ export default function Home() {
         <div className="flex flex-col items-center bg-blue-950 w-full p-5 rounded-lg">
           <ShiftList />
         </div>
+        
       </main>
     );
   }

@@ -95,19 +95,19 @@ export default function ShiftList() {
             <div onClick={() => toggleModal(key)} className="flex flex-col w-full">
               <div className={shiftStyle}>
                 <h2>Start Date:</h2>
-                <p>{shift.startDate}</p>
+                <p>{new Date(shift.startDate).toLocaleString()}</p> {/* Format date */}
               </div>
               <div className={shiftStyle}>
                 <h2>End Date:</h2>
-                <p>{shift.endDate}</p>
+                <p>{new Date(shift.endDate).toLocaleString()}</p> {/* Format date */}
               </div>
               <div className={shiftStyle}>
                 <h2>Employee:</h2>
-                <p>{shift.employee_id}</p>
+                <p>{getEmployeeName(shift.employee_id)}</p> {/* Use function */}
               </div>
               <div className={shiftStyle}>
                 <h2>Department:</h2>
-                <p>{shift.department_id}</p>
+                <p>{getDepartmentName(shift.department_id)}</p> {/* Use function */}
               </div>
               <div className={shiftStyle}>
                 <h2>Status:</h2>
@@ -116,7 +116,8 @@ export default function ShiftList() {
               {modalState === key && <ShiftRequest shiftId={shift._id}/>}
             </div>
           </div> 
-      )})}
+        </div>
+      ))}
     </>
-  );
+  )
 }
