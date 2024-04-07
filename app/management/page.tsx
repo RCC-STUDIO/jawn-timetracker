@@ -1,10 +1,10 @@
 "use client";
-
+import React from "react";
 import Carousel from "@/components/Carousel";
 import ChangeEvent from "react";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 const fakeDropsRequests = [
   ["Matthew", "Monday the 15th", "4pm - 10pm"],
   ["Matthew", "Monday the 15th", "4pm - 10pm"],
@@ -28,11 +28,10 @@ const fakeSwapRequest = [
 ];
 
 export default function App() {
+  const { status, data: session } = useSession();
   const fileHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     // push this file content to the database
   };
-  const router = useRouter();
-  const { status, data: session } = useSession();
 
   // If the user is not authenticated get routed to main home page
   if (status === "unauthenticated"){
@@ -44,7 +43,7 @@ export default function App() {
         <h1 className="p-4 text-2xl font-bold underline">MANAGEMENT</h1>
         <form className="bg-blue-950 p-4 w-full rounded-md">
           <h1>Import Schedule</h1>
-          <input type="file" className="" accept="csv"></input>
+          <input title="file" type="file" className="" accept="csv"></input>
         </form>
         <Carousel/>
       </div>
