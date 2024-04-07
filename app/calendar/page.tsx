@@ -5,6 +5,7 @@ import ShiftDataModal from "@/components/ShiftDataModal";
 import { getShifts, getDepartments, getEmployees } from "@/libs/dbAccess";
 import { useSession } from "next-auth/react";
 import Employee from "@/models/employee";
+import { set } from "mongoose";
 
 // this was used for visuals only, feel free to delete once database is hooked up
 const fakeSchedule = [
@@ -50,6 +51,7 @@ export default function Calendar() {
   const [shifts, setShifts] = useState<Shift[]>([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
+  const [departmentName, setDepartmentName] = useState("");
   
   const weekDays = ["Sun. 31", "Mon. 1", "Tue. 2", "Wed. 3", "Thu. 4", "Fri. 5", "Sat. 6"]
   const userEmail = session?.user?.email;
@@ -59,15 +61,29 @@ export default function Calendar() {
       try {
         // get all shifts
         const shiftsData = await getShifts();
-        setShifts(shiftsData)
         const employees = await getEmployees();
+        const departments = await getDepartments();
+
+        let department_id = "";
+        for (let i = 0; i < employees.length; i++) {
+          if (employees[i].email === userEmail) {
+            department_id = employees[i].department_id;
+          }
+        }
+        
+        for (let i = 0; i < departments.length; i++) {
+          if (departments[i]._id === department_id) {
+            setDepartmentName(departments[i].department);
+          }
+        }
+        setShifts(shiftsData);
         setEmployees(employees);     
       } catch (error) {
         console.error("Error fetching shifts:", error);
       }
     }
     fetchShifts();
-  }, []);
+  }, [session?.user?.email]);
 
   const modalDisplay = (shift: Shift, dept: string, employee: string) => {
     setModal(true)
@@ -97,7 +113,7 @@ export default function Calendar() {
                 const weekdayShifts = userShifts.filter((shift) => new Date(shift.startDate).getDay() === index)
                 if (weekdayShifts.length > 0) {
                   return (
-                    <td key={index} onClick={() => modalDisplay(weekdayShifts[0], "departmentName", employee.firstName + " " + employee.lastName)} className="border border-blue-950 p-1 bg-blue-50 text-black text-center px-5">{weekdayShifts[0]._id ? "🟢" : ""}</td>
+                    <td key={index} onClick={() => modalDisplay(weekdayShifts[0], departmentName, employee.firstName + " " + employee.lastName)} className="border border-blue-950 p-1 bg-blue-50 text-black text-center px-5">{weekdayShifts[0]._id ? "🟢" : ""}</td>
                   )
                 } else {
                   return (
