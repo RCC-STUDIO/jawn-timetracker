@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 const buttonStyle = 'bg-blue-100 text-blue-950 border rounded-md hover:bg-blue-950 hover:text-blue-100 px-6 py-3 mx-5';
 
@@ -27,9 +27,34 @@ const ShiftRequest = ({ shiftId}: { shiftId: string }) => {
     router.push(path);
   }
 
-  // - Matt
-  const dropShift = () => {
-    setMessage("Drop request has been sent!")
+  const dropShift = async () => {
+    try {
+        const response = await fetch('/api/shift-requests', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            newFirstShiftId: shiftId,
+            newSecondShiftId: null,
+            newRequesterEmployeeId: 'employee_id', // You'll need to fetch this from your state or props
+            newRequesteeEmployeeId: null,
+            newDepartmentId: 'department_id', // You'll need to fetch this from your state or props
+            status: 'pending',
+          }),
+        });
+    
+        if (!response.ok) {
+          throw new Error('Failed to submit shift drop request');
+        }
+    
+        setMessage('Drop request has been sent!');
+      } catch (Error) {
+        console.error(Error);
+        setMessage('Failed to submit drop request');
+      }
+    };
+    // - Matt
     // push the request using the shiftId that comes from the prop
     /*
       POST() {
@@ -46,7 +71,6 @@ const ShiftRequest = ({ shiftId}: { shiftId: string }) => {
       as possible so that way can we just have the useEffect over in the drop requests over in 
       the manager page and then have it load the rest of the information based on that shift id
     */
-  }
   return (
     <div className="modal-overlay flex flex-col bg-blue-950 items-center mb-4">
       <h2 className="p-3 text-lg font-bold">Shift Options</h2>
