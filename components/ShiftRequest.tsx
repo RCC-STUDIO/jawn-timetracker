@@ -1,5 +1,6 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import React from 'react';
 
 const buttonStyle = 'bg-blue-100 text-blue-950 border rounded-md hover:bg-blue-950 hover:text-blue-100 px-6 py-3 mx-5';
 
