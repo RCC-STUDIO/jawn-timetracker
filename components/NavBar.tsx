@@ -16,12 +16,12 @@ export default function NavBar() {
         (<nav className="flex flex-row text-xl text-white w-full items-center text-center fixed bottom-0">
                 <div className={buttonStyle}>
                     <a href="/calendar">
-                        <img className={imageStyles} src="\images\calendar-button.png" alt="Calendar"/>
+                        <img className={imageStyles} src="\images\schedule.svg" alt="Calendar"/>
                     </a>
                 </div>
                 <div className={buttonStyle}>
                     <a href="/">
-                        <img className={imageStyles} src="\images\home-button.png" alt="Home"/>
+                        <img className={imageStyles} src="\images\home.svg" alt="Home"/>
                     </a>
                 </div>
                 <div className={buttonStyle}>

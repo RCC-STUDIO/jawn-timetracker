@@ -62,7 +62,7 @@ export default function ShiftList({ email }: { email: any }) {
       }
     }
     fetchShifts();
-  }, [session?.user?.email]);
+  }, [session?.user?.email, userEmail]);
 
   const toggleModal = (key: number) => {
     setModalState((previous) => (previous === key ? -1 : key));
