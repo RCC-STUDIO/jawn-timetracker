@@ -12,7 +12,6 @@ interface Employee {
 }
 
 export default function asyncManagerLink() {
-    const router = useRouter();
     const { status, data: session } = useSession();
     const userEmail = session?.user?.email;
     const [isManager, setIsManager] = useState(false);

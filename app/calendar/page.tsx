@@ -5,16 +5,6 @@ import ShiftDataModal from "@/components/ShiftDataModal";
 import { getShifts, getDepartments, getEmployees } from "@/libs/dbAccess";
 import { useSession } from "next-auth/react";
 import Employee from "@/models/employee";
-import { set } from "mongoose";
-
-// this was used for visuals only, feel free to delete once database is hooked up
-const fakeSchedule = [
-  ["", 'Shift 1', 'Shift 2', 'Shift 3', 'Shift 4', 'Shift 5', ""], // 0th index (first row)
-  ['Shift 6', 'Shift 7', 'Shift 8', 'Shift 9', "", "", ""], // 1st index (second row)
-  ["", "", 'Shift 10', 'Shift 11', 'Shift 12', 'Shift 13', 'Shift 14'], // 2nd index (third row)
-  ['Shift 15', "", "", "", 'Shift 16', "", ""], // 3rd index (fourth row)
-  ['Shift 17', 'Shift 18', "", "", 'Shift 19', "", "Shift 20"], // 4th index (fifth row)
-];
 
 interface Shift {
   startDate: Date;
@@ -55,6 +45,15 @@ export default function Calendar() {
   
   const weekDays = ["Sun. 31", "Mon. 1", "Tue. 2", "Wed. 3", "Thu. 4", "Fri. 5", "Sat. 6"]
   const userEmail = session?.user?.email;
+
+  const emptyShift: Shift = {
+    startDate: new Date(),
+    endDate: new Date(),
+    employee_id: "",
+    department_id: "",
+    status: "",
+    _id: ""
+  };
 
   useEffect(() => {
     async function fetchShifts() {
@@ -127,7 +126,7 @@ export default function Calendar() {
       </table>
     </div>
     {modal === true && (
-        <ShiftDataModal shiftData={modalData} deptName={department} employeeName={employeeName}/>
+        <ShiftDataModal shiftData={modalData ? modalData : emptyShift} deptName={department} employeeName={employeeName}/>
       )}
       </div>
   </main>

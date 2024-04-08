@@ -1,7 +1,5 @@
 'use client'
 import React, { useState } from 'react';
-import { signIn } from 'next-auth/react';
-import Link from 'next/link'; // Corrected import for Next.js Link
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');

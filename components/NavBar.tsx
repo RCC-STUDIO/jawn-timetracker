@@ -1,7 +1,6 @@
 'use client'
 import React from "react"
 import { useSession } from "next-auth/react"
-import { useState } from "react"
 import { useRouter } from "next/navigation"
 
 //Styles Variables
@@ -10,7 +9,6 @@ const imageStyles = "w-10 h-10 m-auto rounded-full"
 
 
 export default function NavBar() {
-    const router = useRouter();
     const { status, data: session } = useSession();
  
     return (

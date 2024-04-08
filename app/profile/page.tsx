@@ -14,11 +14,6 @@ interface Employee {
   _id: String
 }
 
-interface Department {
-  department: string,
-  _id: String
-}
-
 export default function App() {
   const router = useRouter();
   const { status, data: session } = useSession();

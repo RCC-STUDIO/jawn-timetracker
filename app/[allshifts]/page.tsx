@@ -4,7 +4,6 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { getShifts } from "@/libs/dbAccess";
 import CompleteSwap from "@/components/CompleteSwap";
-import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { getEmployees, getDepartments } from "@/libs/dbAccess";

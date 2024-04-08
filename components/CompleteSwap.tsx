@@ -17,7 +17,6 @@ interface Shift {
 
 export default function CompleteSwap()  {
   const [message, setMessage] = useState("")
-  const [shift, setShift] = useState<Shift[]>([])
 
   //Use Params to send the shiftId to allshifts/page.tsx
   const router = useRouter();
@@ -41,5 +40,3 @@ export default function CompleteSwap()  {
     </div>
   );
 };
-
-//href="/allshifts"
