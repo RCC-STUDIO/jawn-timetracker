@@ -14,7 +14,8 @@ export default function NavBar() {
     const { status, data: session } = useSession();
  
     return (
-        status === "authenticated" && (<nav className="flex flex-row text-xl text-white w-full justify-center items-center text-center">
+        status === "authenticated" && 
+        (<nav className="flex flex-row text-xl text-white w-full items-center text-center fixed bottom-0">
                 <div className={buttonStyle}>
                     <a href="/calendar">
                         <img className={imageStyles} src="\images\calendar-button.png" alt="Calendar"/>
