@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 const buttonStyle = 'bg-blue-950 text-blue-100 border rounded-md hover:bg-blue-950 hover:text-blue-100 p-3 mx-5 w-1/2';
 
+// This is where the secondary employee will Approve or Deny the first employee's request to swap shifts.
 const SwapOptions = () => {
   const [message, setMessage] = useState("")
 

@@ -1,6 +1,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import React from 'react';
+import * as requestUtils from '../libs/dbAccess';
 
 const buttonStyle = 'bg-blue-100 text-blue-950 border rounded-md hover:bg-blue-950 hover:text-blue-100 px-6 py-3 mx-5';
 
@@ -28,50 +29,34 @@ const ShiftRequest = ({ shiftId}: { shiftId: string }) => {
     router.push(path);
   }
 
+  //Method for dropping a shift
   const dropShift = async () => {
     try {
-        const response = await fetch('/api/shift-requests', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            newFirstShiftId: shiftId,
-            newSecondShiftId: null,
-            newRequesterEmployeeId: 'employee_id', // You'll need to fetch this from your state or props
-            newRequesteeEmployeeId: null,
-            newDepartmentId: 'department_id', // You'll need to fetch this from your state or props
-            status: 'pending',
-          }),
-        });
-    
-        if (!response.ok) {
-          throw new Error('Failed to submit shift drop request');
-        }
-    
-        setMessage('Drop request has been sent!');
-      } catch (Error) {
-        console.error(Error);
-        setMessage('Failed to submit drop request');
-      }
-    };
-    // - Matt
-    // push the request using the shiftId that comes from the prop
-    /*
-      POST() {
-        newFirst_shift_id: shiftID (from props), 
-        newSecond_shift_id: null, 
-        newRequesterEmployee_id: check note, 
-        newRequesteeEmployee_id: null, 
-        newDepartment_id: check note, 
-        newStatus: check note
-      }
-      and submit this to the requests
+      // Prepare the request data
+      const requestShiftId = {
+        newFirstShiftId: shiftId,
+        newSecondShiftId: null,
+        newRequesterEmployeeId: 'employee_id', // Fetch this from your state or props
+        newRequesteeEmployeeId: null,
+        newDepartmentId: 'department_id', // Fetch this from your state or props
+        status: 'pending',
+      };
+      // Call the createRequest function
+      await requestUtils.createRequest(requestShiftId);
 
-      NOTE: do we want to just submit the shift id? that way we are passing as little information
-      as possible so that way can we just have the useEffect over in the drop requests over in 
-      the manager page and then have it load the rest of the information based on that shift id
-    */
+      // Handle the response
+      setMessage('Shift request has been sent!');
+    } catch (error) {
+      console.error(error);
+      setMessage('Failed to submit shift request');
+    }
+  };
+
+//Method for swapping a shift.
+  const swapShift = async () => {
+    //
+  };
+
   return (
     <div className="modal-overlay flex flex-col bg-blue-950 items-center mb-4">
       <h2 className="p-3 text-lg font-bold">Shift Options</h2>
