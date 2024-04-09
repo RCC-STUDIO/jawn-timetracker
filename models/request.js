@@ -4,7 +4,8 @@ const requestSchema = new Schema(
     {
         first_shift_id: String,
         second_shift_id: String,
-        next_employee_id: String,
+        requester_employee_id: String,
+        requestee_employee_id: String, // can be null
         department_id: String,
         status: String // pending, requested, dropped, swapped, completed
         /*
@@ -13,8 +14,8 @@ const requestSchema = new Schema(
         * working: the request has been complete
         * 
         * Shift swaps:
-        * 1. First employee sends request to second employee (pending)
-        * 2. Second employee [next_employee_id] 
+        * 1. First employee sends request to second employee (pending) [requestee_employee_id]
+        * 2. Second employee [requester_employee_id] 
         *    a) accepts the request: the request is sent to management. (requested)
         *    b) declines the request: the request is declined and employee is notified. (completed)
         * 3. Management

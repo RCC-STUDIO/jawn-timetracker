@@ -1,41 +1,35 @@
 'use client'
 import React from "react"
 import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
 //Styles Variables
 const buttonStyle = "bg-blue-950 hover:bg-blue-700 hover:text-blue-950 text-white p-5 w-full text-center"
-let loggedIn = true
+const imageStyles = "w-10 h-10 m-auto rounded-full"
+
 
 export default function NavBar() {
-    const checkUser = () => {
-        const { status } = useSession({
-            required: true,
-            onUnauthenticated() {
-              // The user is not authenticated, handle it here.
-            },
-          })
-          if (status === "loading") {
-            loggedIn = true
-            return "Loading or not authenticated..."
-          }
-    }
+    const { status, data: session } = useSession();
+ 
     return (
-        loggedIn && (<footer className="">
-            <div className="flex flex-row text-xl text-white absolute bottom-0 left-0 w-full">
+        status === "authenticated" && 
+        (<nav className="flex flex-row text-xl text-white w-full items-center text-center fixed bottom-0">
                 <div className={buttonStyle}>
                     <a href="/calendar">
-                        <img src="..\public\images\calendar-button.png" alt="Calendar"/>
+                        <img className={imageStyles} src="\images\schedule.svg" alt="Calendar"/>
                     </a>
                 </div>
                 <div className={buttonStyle}>
                     <a href="/">
-                        <img src="..\public\images\calendar-button.png" alt="Home"/>
+                        <img className={imageStyles} src="\images\home.svg" alt="Home"/>
                     </a>
                 </div>
                 <div className={buttonStyle}>
-                    <a href="/profile">Profile</a>
+                    <a href="/profile">
+                        <img className={imageStyles} src={session?.user?.image ?? "../public/images/profile_icon.jpg"} alt="Profile"/>
+                    </a>
                 </div>
-            </div>
-        </footer>)
+            
+        </nav>)
     )
 }

@@ -1,71 +1,134 @@
 'use client'
+import React from "react";
+import { useState, useEffect} from "react";
+import ShiftDataModal from "@/components/ShiftDataModal";
+import { getShifts, getDepartments, getEmployees } from "@/libs/dbAccess";
+import { useSession } from "next-auth/react";
+import Employee from "@/models/employee";
 
-import React, { useState } from 'react';
-
-interface ScheduleEntry {
-  name: string;
-  days: (string | null)[];
+interface Shift {
+  startDate: Date;
+  endDate: Date;
+  employee_id: string;
+  department_id: string;
+  status: string;
+  _id: string;
 }
 
-const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const fakeSchedule: ScheduleEntry[] = [
-  { name: "Ryan C.", days: [null, "8:00 AM - 4:00 PM", "8:00 AM - 4:00 PM", "8:00 AM - 4:00 PM", "8:00 AM - 4:00 PM", "8:00 AM - 4:00 PM", null] },
-  { name: "Matthew S.", days: [null, "9:00 AM - 5:00 PM", "9:00 AM - 5:00 PM", "9:00 AM - 5:00 PM", "9:00 AM - 5:00 PM", "9:00 AM - 5:00 PM", null] },
-  { name: "Ben R.", days: [null, "10:00 AM - 6:00 PM", "10:00 AM - 6:00 PM", "10:00 AM - 6:00 PM", null, null, null] },
-  { name: "Cyril D.", days: [null, "1:00 PM - 9:00 PM", null, null, null, null, null] },
-  { name: "Gabriel L.", days: ["12:00 PM - 8:00 PM", "12:00 PM - 8:00 PM", "12:00 PM - 8:00 PM", null, null, null, null] },
-];
+interface Employee {
+  firstName: String,
+  lastName: String,
+  email: String,
+  department_id: String,
+  isManager: Boolean,
+  _id: String
+}
 
-const CalendarPage: React.FC = () => {
-  const [selectedDay, setSelectedDay] = useState<number | null>(null);
+interface Department {
+  department: string,
+  _id: String
+}
 
-  const renderDayDetails = (dayIndex: number) => {
-    return (
-      <div className="mt-4 bg-white shadow-md rounded-lg p-4">
-        <h2 className="font-bold text-lg">Schedule for {weekDays[dayIndex]}:</h2>
-        <ul>
-          {fakeSchedule.map((entry, index) => (
-            entry.days[dayIndex] ? <li key={index}>{entry.name}: {entry.days[dayIndex]}</li> : null
-          ))}
-        </ul>
-      </div>
-    );
+export default function Calendar() {
+  const { status, data: session } = useSession();
+  // MODAL RELATED
+  const [modal, setModal] = useState(false)
+  const [modalData, setModalData] = useState<Shift>()
+  const [employeeName, setEmployeeName] = useState("")
+  const [department, setDepartment] = useState("")
+
+  // DATABASE RELATED
+  const [shifts, setShifts] = useState<Shift[]>([]);
+  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [departments, setDepartments] = useState<Department[]>([]);
+  const [departmentName, setDepartmentName] = useState("");
+  
+  const weekDays = ["Sun. 31", "Mon. 1", "Tue. 2", "Wed. 3", "Thu. 4", "Fri. 5", "Sat. 6"]
+  const userEmail = session?.user?.email;
+
+  const emptyShift: Shift = {
+    startDate: new Date(),
+    endDate: new Date(),
+    employee_id: "",
+    department_id: "",
+    status: "",
+    _id: ""
   };
 
-  return (
-    <main className="flex flex-col items-center justify-between p-5">
-      <div className="w-full max-w-md mx-auto">
-        <h1 className="text-xl font-semibold mb-4 text-center">Monthly Calendar</h1>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                {weekDays.map((day) => (
-                  <th key={day} scope="col" className="py-3 px-1 text-center">
-                    {day}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {}
-              {Array.from({ length: 4 }).map((_, weekIndex) => (
-                <tr key={weekIndex} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  {weekDays.map((_, dayIndex) => (
-                    <td key={dayIndex} className="py-4 px-6 text-center cursor-pointer" onClick={() => setSelectedDay(dayIndex)}>
-                      {}
-                      {weekIndex * 7 + dayIndex + 1 <= 30 ? weekIndex * 7 + dayIndex + 1 : ''}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        {selectedDay !== null && renderDayDetails(selectedDay)}
-      </div>
-    </main>
-  );
-};
+  useEffect(() => {
+    async function fetchShifts() {
+      try {
+        // get all shifts
+        const shiftsData = await getShifts();
+        const employees = await getEmployees();
+        const departments = await getDepartments();
 
-export default CalendarPage;
+        let department_id = "";
+        for (let i = 0; i < employees.length; i++) {
+          if (employees[i].email === userEmail) {
+            department_id = employees[i].department_id;
+          }
+        }
+        
+        for (let i = 0; i < departments.length; i++) {
+          if (departments[i]._id === department_id) {
+            setDepartmentName(departments[i].department);
+          }
+        }
+        setShifts(shiftsData);
+        setEmployees(employees);     
+      } catch (error) {
+        console.error("Error fetching shifts:", error);
+      }
+    }
+    fetchShifts();
+  }, [session?.user?.email]);
+
+  const modalDisplay = (shift: Shift, dept: string, employee: string) => {
+    setModal(true)
+    setModalData(shift)
+    setDepartment(dept)
+    setEmployeeName(employee)
+    
+  }
+
+  return (
+  <main className="min-h-screen w-full">
+    <div className="">
+    <div className="overflow-auto">
+      <table className="border border-white">
+        <tbody className="border border-white m-4">
+          <tr>
+          <td className="border border-white text-center bg-blue-950 font-bold py-2 px-3"></td>
+            {weekDays.map((day, index) => (
+              <td key={index} className="border border-white text-center bg-blue-950 font-bold py-2 px-3">{day}</td>
+            ))}
+          </tr>
+          {employees.map((employee, index) => (
+            <tr key={index} className="border border-white">
+              <td key={index} className="border border-white p-1 bg-blue-950">{employee.firstName} {employee.lastName}</td>
+              {weekDays.map((day, index) => {
+                const userShifts = shifts.filter((shift) => shift.employee_id === employee._id)
+                const weekdayShifts = userShifts.filter((shift) => new Date(shift.startDate).getDay() === index)
+                if (weekdayShifts.length > 0) {
+                  return (
+                    <td key={index} onClick={() => modalDisplay(weekdayShifts[0], departmentName, employee.firstName + " " + employee.lastName)} className="border border-blue-950 p-1 bg-blue-50 text-black text-center px-5">{weekdayShifts[0]._id ? "🟢" : ""}</td>
+                  )
+                } else {
+                  return (
+                    <td key={index} className="border border-blue-950 p-1 bg-blue-50 text-black text-center px-5"></td>
+                  )
+                }
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    {modal === true && (
+        <ShiftDataModal shiftData={modalData ? modalData : emptyShift} deptName={department} employeeName={employeeName}/>
+      )}
+      </div>
+  </main>
+  )
+}

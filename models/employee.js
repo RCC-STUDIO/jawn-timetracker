@@ -4,6 +4,7 @@ const employeeSchema = new Schema(
     {
         firstName: String,
         lastName: String,
+        email: String,
         department_id: String,
         isManager: Boolean,
     },
