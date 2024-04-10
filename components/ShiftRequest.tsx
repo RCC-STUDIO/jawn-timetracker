@@ -14,7 +14,7 @@ interface Shift {
   _id: string;
 }
 
-
+//Creating a Shift Request - Ben
 const ShiftRequest = ({ shiftId}: { shiftId: string }) => {
   const [message, setMessage] = useState("")
   const [shift, setShift] = useState<Shift[]>([])
@@ -50,11 +50,29 @@ const ShiftRequest = ({ shiftId}: { shiftId: string }) => {
       console.error(error);
       setMessage('Failed to submit shift request');
     }
-  };
+  }
 
-//Method for swapping a shift.
+//Method for employee one sending a request to swap a shift with employee two.
   const swapShift = async () => {
-    //
+    try {
+      // Prepare the request data
+      const requestShiftId = {
+        newFirstShiftId: shiftId,
+        newSecondShiftId: null,
+        newRequesterEmployeeId: 'employee_id', // Fetch this from your state or props
+        newRequesteeEmployeeId: null,
+        newDepartmentId: 'department_id', // Fetch this from your state or props
+        status: 'pending',
+      };
+      // Call the createRequest function
+      await requestUtils.createRequest(requestShiftId);
+
+      // Handle the response
+      setMessage('Shift request has been sent!');
+    } catch (error) {
+      console.error(error);
+      setMessage('Failed to submit shift request');
+    }
   };
 
   return (

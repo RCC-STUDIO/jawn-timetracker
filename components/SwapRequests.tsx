@@ -73,7 +73,7 @@ export default function SwapRequests() {
             </div>
           </div>
         </div>
-        {modalState === key && <SwapOptions/>} {/* Render modal if modalState matches shift key */}
+        {modalState === key && <SwapOptions shiftId={request.secondShift_id} />} {/* Render modal if modalState matches shift key */}
         </div>
       ))}
     </div>
