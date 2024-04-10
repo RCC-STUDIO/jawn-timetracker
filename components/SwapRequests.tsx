@@ -49,7 +49,7 @@ export default function SwapRequests() {
     <div className="w-full bg-blue-950 p-5 mt-7 border rounded-md border-blue-950">
       <h2 className="text-center font-bold">SWAP REQUESTS</h2>
       {requests.map((request, key) => (
-        <div className="bg-blue-100 border rounded-md m-3">
+        <div key={key} className="bg-blue-100 border rounded-md m-3">
         <div onClick={() => toggleModal(key)} key={key} className={requestStyles}>
           <div className="">
             <div className={requestContentStyles}>

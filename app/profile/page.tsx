@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { getDepartments, getEmployees } from "@/libs/dbAccess";
+import Image from "next/image";
 
 interface Employee {
   firstName: String,
@@ -72,7 +73,7 @@ export default function App() {
                   <div className='flex flex-col rounded-md shadow-inner bg-blue-950 w-full'>
                   <h1 className="text-3xl py-5 font-semibold">{employeeName}</h1>
                     <div className="flex justify-center px-16">
-                      <img className="rounded-full" src={session?.user?.image ?? "../public/images/profile_icon.jpg"} alt={session?.user?.name + "'s Profile Photo"} width={450} height={450}/>
+                      <Image className="rounded-full" src={session?.user?.image ?? "../public/images/profile_icon.jpg"} alt={session?.user?.name + "'s Profile Photo"} width={450} height={450}/>
                     </div>
                       <div className="mt-3 p-4">
                         <p className="text-m p-2">Department: {department}</p>
