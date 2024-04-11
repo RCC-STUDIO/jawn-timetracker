@@ -78,8 +78,9 @@ export default function App() {
                   className="rounded-full"
                   src={session.user.image}
                   alt="User Profile Image"
-                  width={150}
-                  height={150}
+                  width={500}
+                  height={500}
+                  quality={100}
                 />
               )}{" "}
             </div>
