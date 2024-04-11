@@ -14,7 +14,7 @@ export default function Home() {
   } else {
     return (
       <main className="flex flex-col items-center py-10 px-5 max-h-screen">
-        <h1 className="p-5 font-bold text-2xl">My Shifts</h1>
+        <h1 className="p-5 font-bold text-2xl text-white">My Shifts</h1>
         <div className="justify-between flex flex-col items-center bg-blue-950 w-full p-5 rounded-lg">
           <ShiftList email={userEmail}/>
         </div>
