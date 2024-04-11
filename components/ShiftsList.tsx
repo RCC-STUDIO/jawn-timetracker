@@ -30,7 +30,7 @@ interface Department {
 export default function ShiftList({ email }: { email: any }) {
   
   const shiftStyle = "flex flex row justify-between ";
-  const { status, data: session } = useSession();
+  const { data: session } = useSession(); // Removed 'status'
   const userEmail = email || session?.user?.email;
   const [modalState, setModalState] = useState(-1);
   const [shifts, setShifts] = useState<Shift[]>([]);
@@ -90,7 +90,6 @@ export default function ShiftList({ email }: { email: any }) {
 
   return (
     <>
-
       {shifts.map((shift, key) => (
         <div className="flex flex-row border-2 rounded-lg w-full p-4 m-2 text-white" key={shift._id}>
           <div className="w-full items-center">
@@ -119,7 +118,7 @@ export default function ShiftList({ email }: { email: any }) {
             </div>
           </div> 
         </div>
-      )})}
+      ))}
     </>
   )
 }
