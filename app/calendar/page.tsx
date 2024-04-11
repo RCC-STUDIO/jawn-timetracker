@@ -31,13 +31,10 @@ interface Department {
 
 export default function Calendar() {
   const { status, data: session } = useSession();
-  // MODAL RELATED
   const [modal, setModal] = useState(false)
   const [modalData, setModalData] = useState<Shift>()
   const [employeeName, setEmployeeName] = useState("")
   const [department, setDepartment] = useState("")
-
-  // DATABASE RELATED
   const [shifts, setShifts] = useState<Shift[]>([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
@@ -58,18 +55,15 @@ export default function Calendar() {
   useEffect(() => {
     async function fetchShifts() {
       try {
-        // get all shifts
         const shiftsData = await getShifts();
         const employees = await getEmployees();
         const departments = await getDepartments();
-
         let department_id = "";
         for (let i = 0; i < employees.length; i++) {
           if (employees[i].email === userEmail) {
             department_id = employees[i].department_id;
           }
         }
-        
         for (let i = 0; i < departments.length; i++) {
           if (departments[i]._id === department_id) {
             setDepartmentName(departments[i].department);
@@ -89,14 +83,13 @@ export default function Calendar() {
     setModalData(shift)
     setDepartment(dept)
     setEmployeeName(employee)
-    
   }
 
   return (
   <main className="min-h-screen w-full">
     <div className="text-white">
-    <div className="overflow-auto">
-      <table className="border border-white">
+    <div className="overflow-auto w-full">
+      <table className="min-w-[768px] border border-white">
         <tbody className="border border-white m-4">
           <tr>
           <td className="border border-white text-center bg-blue-950 font-bold py-2 px-3"></td>
