@@ -5,6 +5,7 @@ import ShiftDataModal from "@/components/ShiftDataModal";
 import { getShifts, getDepartments, getEmployees } from "@/libs/dbAccess";
 import { useSession } from "next-auth/react";
 import Employee from "@/models/employee";
+import Image from "next/image";
 
 interface Shift {
   startDate: Date;
@@ -164,6 +165,9 @@ export default function Calendar() {
         </div>
         {modal === true && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <button className="absolute top-2 left-3 text-gray-600 hover:text-gray-800" onClick={() => setModal(false)}>
+          <Image src="\images\close.svg" alt="Close" width={50} height={50}></Image>
+        </button>
             <ShiftDataModal
               shiftData={modalData ? modalData : emptyShift}
               deptName={department}
