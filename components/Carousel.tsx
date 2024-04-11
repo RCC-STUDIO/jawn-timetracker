@@ -19,6 +19,7 @@ export default function Carousel({ employeeId, departmentId }: { employeeId: str
         requestee_employee_id: string, // can be null
         department_id: string,
         status: string
+        _id: string
     }
 
     interface Employee {
@@ -149,7 +150,7 @@ export default function Carousel({ employeeId, departmentId }: { employeeId: str
                                         </div>
                                     </div>
                                 </div>
-                                {modalState === key && <ManagerOptions/>} {/* Render modal if modalState matches shift key */}
+                                {modalState === key && <ManagerOptions request={index} />} {/* Render modal if modalState matches shift key */}
                             </div>
                             
                         ))}
@@ -194,7 +195,7 @@ export default function Carousel({ employeeId, departmentId }: { employeeId: str
                                         </div>
                                     </div>
                                 </div>
-                                {modalState === key && <ManagerOptions/>} {/* Render modal if modalState matches shift key */}
+                                {modalState === key && <ManagerOptions request={request}/>} {/* Render modal if modalState matches shift key */}
                             </div>
                         ))}
                     </div>

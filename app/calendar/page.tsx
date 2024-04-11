@@ -89,7 +89,6 @@ export default function Calendar() {
     setModalData(shift)
     setDepartment(dept)
     setEmployeeName(employee)
-    
   }
 
   return (

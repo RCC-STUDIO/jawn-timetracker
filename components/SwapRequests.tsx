@@ -10,7 +10,8 @@ interface Request {
   requester_employee_id: string,
   requestee_employee_id: string, // can be null
   department_id: string,
-  status: string
+  status: string,
+  _id: string
 }
 
 interface Employee {
@@ -19,6 +20,15 @@ interface Employee {
   email: string,
   department_id: string,
   isManager: boolean,
+  _id: string
+}
+
+interface Shift {
+  startDate: Date,
+  endDate: Date,
+  employee_id: string,
+  department_id: string,
+  status: string,
   _id: string
 }
 
@@ -36,7 +46,7 @@ export default function SwapRequests({ employeeId }: { employeeId: string}) {
   const [modalState, setModalState] = useState(-1);
   const [requests, setRequests] = useState<Request[]>([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
-  const [shifts, setShifts] = useState([]);
+  const [shifts, setShifts] = useState<Shift[]>([]);
   const toggleModal = (shiftId: number) => {
     // Toggle the modal state for the clicked shift
     setModalState((previous) => (previous === shiftId ? -1 : shiftId));
@@ -48,7 +58,8 @@ export default function SwapRequests({ employeeId }: { employeeId: string}) {
         const requestData = await getRequests();
         const employeeData = await getEmployees();
         const shiftData = await getShifts();
-        const employeeRequests = requestData.filter((request: Request) => request.requestee_employee_id == employeeId); 
+        var employeeRequests = requestData.filter((request: Request) => request.requestee_employee_id == employeeId); 
+        employeeRequests = employeeRequests.filter((request: Request) => request.status == "pending");
         setRequests(employeeRequests);
         setEmployees(employeeData);
         setShifts(shiftData);
@@ -134,7 +145,7 @@ export default function SwapRequests({ employeeId }: { employeeId: string}) {
             </div>
           </div>
         </div>
-        {modalState === key && <SwapOptions/>} {/* Render modal if modalState matches shift key */}
+        {modalState === key && <SwapOptions request={request}/>} {/* Render modal if modalState matches shift key */}
         </div>
       ))}
     </div>
