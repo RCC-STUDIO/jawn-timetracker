@@ -5,7 +5,7 @@ import Carousel from "@/components/Carousel";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation"; // Corrected import for useRouter
 import Papa from "papaparse";
-import { getEmployee, getDepartments } from "@/libs/dbAccess";
+import { getEmployees, getDepartments } from "@/libs/dbAccess";
 import { createShift } from "@/libs/dbAccess";
 
 interface Employee {
@@ -136,7 +136,7 @@ export default function App() {
               accept=".csv" // Corrected accept attribute to specify the file type
             />
           </form>
-          <Carousel />
+          <Carousel employeeId={employeeId} departmentId={departmentId}/>
           {errorMessage && <p className="text-white">{errorMessage}</p>} {/* Display error message if exists */}
         </div>
       </main>
