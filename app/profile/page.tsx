@@ -15,6 +15,15 @@ interface Employee {
   _id: String;
 }
 
+interface Request {
+  firstShift_id: String;
+  secondShift_id: String;
+  requester_id: String;
+  requestee_id: String;
+  department_id: String;
+  status: String;
+}
+
 export default function App() {
   const router = useRouter();
   const { status, data: session } = useSession();
@@ -23,7 +32,7 @@ export default function App() {
   const [department, setDepartment] = useState("");
   const [employeeId, setEmployeeId] = useState("");
   const [employeeName, setEmployeeName] = useState("");
-  const [requests, setRequests] = useState([]);
+  const [requests, setRequests] = useState<Request[]>([]);
 
   useEffect(() => {
     async function fetchShifts() {
@@ -60,7 +69,7 @@ export default function App() {
       }
     }
     fetchShifts();
-  }, [userEmail]);
+  }, [userEmail, employeeId]);
 
   const navigateToSignOut = () => {
     //Route to SignOut Page
@@ -99,7 +108,7 @@ export default function App() {
               </button>
             </div>
           </div>
-          <SwapRequests employeeId={employeeId} requestData={requests}/>
+          <SwapRequests employeeId={employeeId}/>
         </div>
       </main>
     );
