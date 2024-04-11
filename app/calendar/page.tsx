@@ -126,7 +126,9 @@ export default function Calendar() {
       </table>
     </div>
     {modal === true && (
+      <div className="bg-red-500">
         <ShiftDataModal shiftData={modalData ? modalData : emptyShift} deptName={department} employeeName={employeeName}/>
+      </div>
       )}
       </div>
   </main>
