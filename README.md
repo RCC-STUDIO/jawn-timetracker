@@ -1,4 +1,4 @@
-## TecTOC (TOC Software Center) 
+## SDS (Schedule Distribution System)
 ### Version
 ```markdown
     Build: Version: Alpha 0.0.1

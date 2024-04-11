@@ -11,7 +11,7 @@ interface Employee {
     isManager: boolean;
 }
 
-export default function asyncManagerLink() {
+export default function AsyncManagerLink() {
     const { status, data: session } = useSession();
     const userEmail = session?.user?.email;
     const [isManager, setIsManager] = useState(false);
@@ -31,7 +31,7 @@ export default function asyncManagerLink() {
             }
         }
         fetchEmployees();
-    }, [session?.user?.email]);
+    }, [userEmail]);
 
 
     return (

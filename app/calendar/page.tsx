@@ -82,7 +82,7 @@ export default function Calendar() {
       }
     }
     fetchShifts();
-  }, [session?.user?.email]);
+  }, [userEmail, session?.user?.email]);
 
   const modalDisplay = (shift: Shift, dept: string, employee: string) => {
     setModal(true)
