@@ -1,12 +1,12 @@
 "use client"; // This line is unnecessary and can be removed
 
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import Carousel from "@/components/Carousel";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router"; // Corrected import for useRouter
+import { useRouter } from "next/navigation"; // Corrected import for useRouter
 import Papa from "papaparse";
-import { useState } from "react";
-import { getEmployee } from "@/libs/dbAccess";
+import { getEmployee, getDepartments } from "@/libs/dbAccess";
+import { createShift } from "@/libs/dbAccess";
 
 interface Employee {
   firstName: String,
@@ -16,6 +16,20 @@ interface Employee {
   isManager: Boolean,
   _id: String
 }
+
+interface Shift {
+  startDate: Date,
+  endDate: Date,
+  employee_id: String,
+  department_id: String,
+  status: String
+}
+
+interface Department {
+  department: string,
+  _id: String
+}
+
 
 export default function App() {
   const [errorMessage, setErrorMessage] = useState("");
@@ -28,17 +42,19 @@ export default function App() {
 
     for (let index = 1; index < parsedArray.length; index++) {
       for (let jndex = 1; jndex < parsedArray.length; jndex + 2) { // thit takes care of the date
-        let startDateValue = parsedArray[0][jndex] + parsedArray[index][jndex]
-        let endDateValue = parsedArray[0][jndex] + parsedArray[index][jndex + 1]
-        /**
-         * startDate: new Date(startDateValue),
-          endDate: new Date(endDateValue),
-          employee_id: employee id,
-          department_id: department id,
-          status: always set to working even tho were not using it
-         * 
-         * }
-         */
+        let startDateValue = new Date(parsedArray[0][jndex] + parsedArray[index][jndex])
+        let endDateValue = new Date(parsedArray[0][jndex] + parsedArray[index][jndex + 1])
+
+        const shift: Shift = {
+          startDate: startDateValue,
+          endDate: endDateValue,
+          employee_id: "",
+          department_id: "",
+          status: "working"
+        }
+
+        createShift(shift)
+        // this should work?
       }
     }
   }
