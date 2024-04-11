@@ -30,7 +30,7 @@ interface Department {
 export default function ShiftList({ email }: { email: any }) {
   
   const shiftStyle = "flex flex row justify-between ";
-  const { status, data: session } = useSession();
+  const { data: session } = useSession(); // Removed 'status'
   const userEmail = email || session?.user?.email;
   const [modalState, setModalState] = useState(-1);
   const [shifts, setShifts] = useState<Shift[]>([]);
@@ -114,7 +114,7 @@ export default function ShiftList({ email }: { email: any }) {
                 <h2>Status:</h2>
                 <p>{shift.status}</p>
               </div>
-              {modalState === key && <ShiftRequest shiftId={shift._id}/>}
+              {modalState === key && <ShiftRequest shiftId={shift._id} employeeId={shift.employee_id} departmentId={shift.department_id} employees={employees}/>}
             </div>
           </div> 
         </div>
