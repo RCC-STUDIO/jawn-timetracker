@@ -7,6 +7,7 @@ import CompleteSwap from "@/components/CompleteSwap";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { getEmployees, getDepartments } from "@/libs/dbAccess";
+import { usePathname } from "next/navigation";
 
 // STYLE CONSTANTS
 const shiftStyle = "flex flex row justify-between";
@@ -38,12 +39,14 @@ interface Department {
 
 export default function AllShifts() {
   const router = useRouter();
+  const shiftId = usePathname();
   const { status, data: session } = useSession();
   const userEmail = session?.user?.email;
   const [modalState, setModalState] = useState(-1);
   const [shifts, setShifts] = useState<Shift[]>([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
+  const [requester_id, setRequesterId] = useState("");
 
   const toggleModal = (key: number) => {
     setModalState((previous) => (previous === key ? -1 : key));
@@ -67,7 +70,7 @@ export default function AllShifts() {
         }
 
         const availableShifts = shiftsData.filter((shift: Shift) => shift.employee_id != employee_id);
-
+        setRequesterId(employee_id);
         setShifts(availableShifts);
       } catch (error) {
         console.error("Error fetching shifts:", error);
@@ -148,7 +151,7 @@ export default function AllShifts() {
                   <p>{shift.status}</p>
                 </div>
               </div>
-              {modalState === key && <CompleteSwap/>}
+              {modalState === key && <CompleteSwap firstShiftId={shiftId} secondShiftId={shift._id} departmentId={shift.department_id} requester_id={requester_id} requestee_id={shift.employee_id}/>}
             </div>
           </div>
         )})}

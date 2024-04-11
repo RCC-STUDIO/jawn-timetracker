@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { createRequest, getEmployee } from '@/libs/dbAccess';
+import { set } from 'mongoose';
+import { get } from 'http';
 
 const buttonStyle = 'bg-blue-100 text-blue-950 border rounded-md hover:bg-blue-950 hover:text-blue-100 px-6 py-3 mx-5';
 
@@ -12,8 +15,19 @@ interface Shift {
   _id: string;
 }
 
+interface Employee {
+  firstName: String,
+  lastName: String,
+  email: String,
+  department_id: String,
+  isManager: Boolean,
+  _id: String
+}
 
-const ShiftRequest = ({ shiftId}: { shiftId: string }) => {
+
+const ShiftRequest = ({ shiftId, employeeId, departmentId, employees}: { shiftId: string, employeeId: string, departmentId: string, employees: Employee[] }) => {
+  console.log(shiftId)
+  console.log(employeeId)
   const [message, setMessage] = useState("")
   const [shift, setShift] = useState<Shift[]>([])
 
@@ -29,24 +43,17 @@ const ShiftRequest = ({ shiftId}: { shiftId: string }) => {
 
   // - Matt
   const dropShift = () => {
-    setMessage("Drop request has been sent!")
-    // push the request using the shiftId that comes from the prop
-    /*
-      POST() {
-        newFirst_shift_id: shiftID (from props), 
-        newSecond_shift_id: null, 
-        newRequesterEmployee_id: check note, 
-        newRequesteeEmployee_id: null, 
-        newDepartment_id: check note, 
-        newStatus: check note
-      }
-      and submit this to the requests
-
-      NOTE: do we want to just submit the shift id? that way we are passing as little information
-      as possible so that way can we just have the useEffect over in the drop requests over in 
-      the manager page and then have it load the rest of the information based on that shift id
-    */
+    const request = {
+      first_shift_id: shiftId,
+      second_shift_id: null,
+      requester_employee_id: employeeId,
+      requestee_employee_id: null,
+      department_id: departmentId,
+      status: "requested"
+    }
+    createRequest(request)
   }
+
   return (
     <div className="modal-overlay flex flex-col bg-blue-950 items-center mb-4">
       <h2 className="p-3 text-lg font-bold">Shift Options</h2>
@@ -58,6 +65,7 @@ const ShiftRequest = ({ shiftId}: { shiftId: string }) => {
     </div>
   );
 };
+
 
 export default ShiftRequest;
 

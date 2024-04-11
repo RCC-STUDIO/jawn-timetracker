@@ -93,6 +93,7 @@ export default function Calendar() {
   }, [userEmail, session?.user?.email]);
 
   const modalDisplay = (shift: Shift, dept: string, employee: string) => {
+
     setModal(true);
     setModalData(shift);
     setDepartment(dept);

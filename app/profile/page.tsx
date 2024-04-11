@@ -3,7 +3,7 @@ import SwapRequests from "@/components/SwapRequests";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { getDepartments, getEmployees } from "@/libs/dbAccess";
+import { getDepartments, getEmployees, getRequests } from "@/libs/dbAccess";
 import Image from "next/image";
 
 interface Employee {
@@ -15,6 +15,15 @@ interface Employee {
   _id: String;
 }
 
+interface Request {
+  firstShift_id: String;
+  secondShift_id: String;
+  requester_id: String;
+  requestee_id: String;
+  department_id: String;
+  status: String;
+}
+
 export default function App() {
   const router = useRouter();
   const { status, data: session } = useSession();
@@ -23,6 +32,7 @@ export default function App() {
   const [department, setDepartment] = useState("");
   const [employeeId, setEmployeeId] = useState("");
   const [employeeName, setEmployeeName] = useState("");
+  const [requests, setRequests] = useState<Request[]>([]);
 
   useEffect(() => {
     async function fetchShifts() {
@@ -34,6 +44,7 @@ export default function App() {
         let employees = await getEmployees();
         setEmployees(employees);
         let departments = await getDepartments();
+        let requests = await getRequests();
         // find employee by matching the email
         for (let i = 0; i < employees.length; i++) {
           if (employees[i].email == userEmail) {
@@ -49,6 +60,7 @@ export default function App() {
             }
           }
         }
+        setRequests(requests);
         setEmployeeId(employee_id);
         setEmployeeName(employee_name);
         setDepartment(department_name);
@@ -57,7 +69,7 @@ export default function App() {
       }
     }
     fetchShifts();
-  }, [userEmail]);
+  }, [userEmail, employeeId]);
 
   const navigateToSignOut = () => {
     //Route to SignOut Page
@@ -96,7 +108,7 @@ export default function App() {
               </button>
             </div>
           </div>
-          <SwapRequests />
+          <SwapRequests employeeId={employeeId}/>
         </div>
       </main>
     );
