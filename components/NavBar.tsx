@@ -13,7 +13,7 @@ export default function NavBar() {
 
   return (
     status === "authenticated" && (
-      <nav className="flex flex-row text-xl text-white w-full items-center text-center fixed bottom-auto">
+      <nav className="flex flex-row text-xl text-white w-full items-center text-center fixed bottom-0">
         <div className={buttonStyle}>
           <a href="/calendar">
             <Image
