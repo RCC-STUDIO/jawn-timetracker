@@ -36,28 +36,7 @@ export default function Carousel() {
     const requestStyles = "bg-blue-100 p-4 w-full items-center rounded-md text-black";
     const requestContentStyles = "flex flex-row justify-between font-bold"
     const buttonStyles = "bg-blue-100 text-black border rounded-md border-blue-100 p-4"
-
-    // FOR TESTING PURPOSES
-    const fakeDropsRequests = [
-        ["Matthew", "Monday the 15th", "4pm - 10pm"],
-        ["Matthew", "Monday the 15th", "4pm - 10pm"],
-        ["Matthew", "Monday the 15th", "4pm - 10pm"],
-        ["Matthew", "Monday the 15th", "4pm - 10pm"],
-        ["Matthew", "Monday the 15th", "4pm - 10pm"],
-        ["Matthew", "Monday the 15th", "4pm - 10pm"],
-        ["Matthew", "Monday the 15th", "4pm - 10pm"],
-        ["Matthew", "Monday the 15th", "4pm - 10pm"],
-    ];
-      
-    const fakeSwapRequests = [
-        ["Cyril", "Ryan", "April 1st", "April 2nd"],
-        ["Cyril", "Ryan", "April 1st", "April 2nd"],
-        ["Cyril", "Ryan", "April 1st", "April 2nd"],
-        ["Cyril", "Ryan", "April 1st", "April 2nd"],
-        ["Cyril", "Ryan", "April 1st", "April 2nd"],
-        ["Cyril", "Ryan", "April 1st", "April 2nd"],
-    ];
-
+  
     // TOGGLE CONTROLS
     const [showDropRequests, setShowDropRequests] = useState(true);
     const [showSwapRequests, setShowSwapRequests] = useState(false);
@@ -78,7 +57,7 @@ export default function Carousel() {
                     <div className="w-full bg-blue-950 p-5 border rounded-md border-blue-950">
                             <h2 className="text-center font-bold">DROP REQUESTS</h2>
                             {dropRequests.map((index, key) => (
-                            <div className="bg-blue-100 border rounded-md my-3">
+                            <div key={key} className="bg-blue-100 border rounded-md my-3">
                                 <div onClick={() => toggleModal(key)} key={key} className={requestStyles}>
                                     <div className="">
                                         <div className={requestContentStyles}>
@@ -105,7 +84,7 @@ export default function Carousel() {
                     <div className="w-full bg-blue-950 p-5 border rounded-md border-blue-950">
                         <h2 className="text-center font-bold">SWAP REQUESTS</h2>
                         {swapRequests.map((request, key) => (
-                            <div className="bg-blue-100 border rounded-md my-3">
+                            <div key={key} className="bg-blue-100 border rounded-md my-3">
                                 <div onClick={() => toggleModal(key)} key={key} className={requestStyles}>
                                     <div className="">
                                         <div className={requestContentStyles}>

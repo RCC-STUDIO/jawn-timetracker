@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 const buttonStyle = 'bg-blue-950 text-blue-100 border rounded-md hover:bg-blue-950 hover:text-blue-100 p-3 mx-5 w-1/2';
 

@@ -19,7 +19,7 @@
 */
 export const getShifts = async () => {
     try {
-        const response = await fetch('http://localhost:3000/api/shifts', {
+        const response = await fetch('https://jawn-sds.vercel.app/api/shifts', {
             cache: 'no-store',
         });
 
@@ -48,7 +48,7 @@ export const getShifts = async () => {
 */
 export const getShift = async (id) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/shifts/${id}`, {
+        const response = await fetch(`https://jawn-sds.vercel.app/api/shifts/${id}`, {
             cache: 'no-store',
         });
 
@@ -72,7 +72,7 @@ export const getShift = async (id) => {
 */
 export const createShift = async (shift) => {
     try {
-        const response = await fetch('http://localhost:3000/api/shifts', {
+        const response = await fetch('https://jawn-sds.vercel.app/api/shifts', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -100,7 +100,7 @@ export const createShift = async (shift) => {
 */
 export const updateShift = async (id, shift) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/shifts/${id}`, {
+        const response = await fetch(`https://jawn-sds.vercel.app/api/shifts/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ export const updateShift = async (id, shift) => {
 */
 export const deleteShift = async (id) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/shifts/${id}`, {
+        const response = await fetch(`https://jawn-sds.vercel.app/api/shifts/${id}`, {
             method: 'DELETE',
         });
 
@@ -171,7 +171,7 @@ export const deleteShift = async (id) => {
 */
 export const getUsers = async () => {
     try {
-        const response = await fetch('http://localhost:3000/api/users', {
+        const response = await fetch('https://jawn-sds.vercel.app/api/users', {
             cache: 'no-store',
         });
 
@@ -202,7 +202,7 @@ export const getUsers = async () => {
 */
 export const getUser = async (id) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/users/${id}`, {
+        const response = await fetch(`https://jawn-sds.vercel.app/api/users/${id}`, {
             cache: 'no-store',
         });
 
@@ -226,7 +226,7 @@ export const getUser = async (id) => {
 */
 export const createUser = async (user) => {
     try {
-        const response = await fetch('http://localhost:3000/api/users', {
+        const response = await fetch('https://jawn-sds.vercel.app/api/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -254,7 +254,7 @@ export const createUser = async (user) => {
 */
 export const updateUser = async (id, user) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/users/${id}`, {
+        const response = await fetch(`https://jawn-sds.vercel.app/api/users/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -282,7 +282,7 @@ export const updateUser = async (id, user) => {
 */
 export const deleteUser = async (id) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/users/${id}`, {
+        const response = await fetch(`https://jawn-sds.vercel.app/api/users/${id}`, {
             method: 'DELETE',
         });
 
@@ -353,7 +353,7 @@ export const deleteUser = async (id) => {
 */
 export const getRequests = async () => {
     try {
-        const response = await fetch('http://localhost:3000/api/requests', {
+        const response = await fetch('https://jawn-sds.vercel.app/api/requests', {
             cache: 'no-store',
         });
 
@@ -385,7 +385,7 @@ export const getRequests = async () => {
 */
 export const getRequest = async (id) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/requests/${id}`, {
+        const response = await fetch(`https://jawn-sds.vercel.app/api/requests/${id}`, {
             cache: 'no-store',
         });
 
@@ -409,7 +409,7 @@ export const getRequest = async (id) => {
 */
 export const createRequest = async (request) => {
     try {
-        const response = await fetch('http://localhost:3000/api/requests', {
+        const response = await fetch('https://jawn-sds.vercel.app/api/requests', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -437,7 +437,7 @@ export const createRequest = async (request) => {
 */
 export const updateRequest = async (id, request) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/requests/${id}`, {
+        const response = await fetch(`https://jawn-sds.vercel.app/api/requests/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -465,7 +465,7 @@ export const updateRequest = async (id, request) => {
 */
 export const deleteRequest = async (id) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/requests/${id}`, {
+        const response = await fetch(`https://jawn-sds.vercel.app/api/requests/${id}`, {
             method: 'DELETE',
         });
 
@@ -509,7 +509,7 @@ export const deleteRequest = async (id) => {
 */
 export const getEmployees = async () => {
     try {
-        const response = await fetch('http://localhost:3000/api/employees', {
+        const response = await fetch('https://jawn-sds.vercel.app/api/employees', {
             cache: 'no-store',
         });
 
@@ -540,7 +540,7 @@ export const getEmployees = async () => {
 */
 export const getEmployee = async (id) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/employees/${id}`, {
+        const response = await fetch(`https://jawn-sds.vercel.app/api/employees/${id}`, {
             cache: 'no-store',
         });
 
@@ -564,7 +564,7 @@ export const getEmployee = async (id) => {
 */
 export const createEmployee = async (employee) => {
     try {
-        const response = await fetch('http://localhost:3000/api/employees', {
+        const response = await fetch('https://jawn-sds.vercel.app/api/employees', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -592,7 +592,7 @@ export const createEmployee = async (employee) => {
 */
 export const updateEmployee = async (id, employee) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/employees/${id}`, {
+        const response = await fetch(`https://jawn-sds.vercel.app/api/employees/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -620,7 +620,7 @@ export const updateEmployee = async (id, employee) => {
 */
 export const deleteEmployee = async (id) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/employees/${id}`, {
+        const response = await fetch(`https://jawn-sds.vercel.app/api/employees/${id}`, {
             method: 'DELETE',
         });
 
@@ -658,7 +658,7 @@ export const deleteEmployee = async (id) => {
 */
 export const getDepartments = async () => {
     try {
-        const response = await fetch('http://localhost:3000/api/departments', {
+        const response = await fetch('https://jawn-sds.vercel.app/api/departments', {
             cache: 'no-store',
         });
 
@@ -686,7 +686,7 @@ export const getDepartments = async () => {
 */
 export const getDepartment = async (id) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/departments/${id}`, {
+        const response = await fetch(`https://jawn-sds.vercel.app/api/departments/${id}`, {
             cache: 'no-store',
         });
 
@@ -710,7 +710,7 @@ export const getDepartment = async (id) => {
 */
 export const createDepartment = async (department) => {
     try {
-        const response = await fetch('http://localhost:3000/api/departments', {
+        const response = await fetch('https://jawn-sds.vercel.app/api/departments', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -738,7 +738,7 @@ export const createDepartment = async (department) => {
 */
 export const updateDepartment = async (id, department) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/departments/${id}`, {
+        const response = await fetch(`https://jawn-sds.vercel.app/api/departments/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -766,7 +766,7 @@ export const updateDepartment = async (id, department) => {
 */
 export const deleteDepartment = async (id) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/departments/${id}`, {
+        const response = await fetch(`https://jawn-sds.vercel.app/api/departments/${id}`, {
             method: 'DELETE',
         });
 
