@@ -94,7 +94,7 @@ export default function Calendar() {
 
   return (
   <main className="min-h-screen w-full">
-    <div className="">
+    <div className="text-white">
     <div className="overflow-auto">
       <table className="border border-white">
         <tbody className="border border-white m-4">

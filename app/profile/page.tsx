@@ -68,7 +68,7 @@ export default function App() {
     router.push(`/login`);
   } else {
     return (
-      <main className="min-h-screen justify-between p-5">
+      <main className="min-h-screen justify-between p-5 text-white">
         <div className="flex flex-col justify-center text-center p-7">
           <div className="flex flex-col rounded-md shadow-inner bg-blue-950 w-full">
             <h1 className="text-3xl py-5 font-semibold">{employeeName}</h1>
