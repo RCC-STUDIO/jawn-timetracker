@@ -95,7 +95,7 @@ export default function Carousel() {
                                         </div>
                                     </div>
                                 </div>
-                                {modalState === key && <ManagerOptions/>} {/* Render modal if modalState matches shift key */}
+                                {modalState === key && <ManagerOptions shiftId={index.first_shift_id}/>} {/* Render modal if modalState matches shift key */}
                             </div>
                             
                         ))}
@@ -126,7 +126,7 @@ export default function Carousel() {
                                         </div>
                                     </div>
                                 </div>
-                                {modalState === key && <ManagerOptions/>} {/* Render modal if modalState matches shift key */}
+                                {modalState === key && <ManagerOptions shiftId=""/>} {/* Render modal if modalState matches shift key */}
                             </div>
                         ))}
                     </div>
