@@ -3,7 +3,7 @@ import SwapRequests from "@/components/SwapRequests";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { getDepartments, getEmployees } from "@/libs/dbAccess";
+import { getDepartments, getEmployees, getRequests } from "@/libs/dbAccess";
 import Image from "next/image";
 
 interface Employee {
@@ -23,6 +23,7 @@ export default function App() {
   const [department, setDepartment] = useState("");
   const [employeeId, setEmployeeId] = useState("");
   const [employeeName, setEmployeeName] = useState("");
+  const [requests, setRequests] = useState([]);
 
   useEffect(() => {
     async function fetchShifts() {
@@ -34,6 +35,7 @@ export default function App() {
         let employees = await getEmployees();
         setEmployees(employees);
         let departments = await getDepartments();
+        let requests = await getRequests();
         // find employee by matching the email
         for (let i = 0; i < employees.length; i++) {
           if (employees[i].email == userEmail) {
@@ -49,6 +51,7 @@ export default function App() {
             }
           }
         }
+        setRequests(requests);
         setEmployeeId(employee_id);
         setEmployeeName(employee_name);
         setDepartment(department_name);
@@ -96,7 +99,7 @@ export default function App() {
               </button>
             </div>
           </div>
-          <SwapRequests />
+          <SwapRequests employeeId={employeeId} requestData={requests}/>
         </div>
       </main>
     );

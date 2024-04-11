@@ -90,7 +90,8 @@ export default function ShiftList({ email }: { email: any }) {
 
   return (
     <>
-      {shifts.map((shift, key) => (
+      {shifts.map((shift, key) => {
+        return (
         <div className="flex flex-row border-2 rounded-lg w-full p-4 m-2" key={shift._id}>
           <div className="w-full items-center">
             <div onClick={() => toggleModal(key)} className="flex flex-col w-full">
@@ -114,11 +115,11 @@ export default function ShiftList({ email }: { email: any }) {
                 <h2>Status:</h2>
                 <p>{shift.status}</p>
               </div>
-              {modalState === key && <ShiftRequest shiftId={shift._id}/>}
+              {modalState === key && <ShiftRequest shiftId={shift._id} employeeId={shift.employee_id} departmentId={shift.department_id} employees={employees}/>}
             </div>
           </div> 
         </div>
-      ))}
+      )})}
     </>
   )
 }

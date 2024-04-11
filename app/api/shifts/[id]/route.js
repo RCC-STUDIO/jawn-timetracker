@@ -14,5 +14,5 @@ export async function GET(request, { params }) {
     const { id } = params;
     await connectMongoDB();
     const shift = await Shift.findOne({ _id: id });
-    return NextResponse.json({ shift })
+    return NextResponse.json( shift )
 }

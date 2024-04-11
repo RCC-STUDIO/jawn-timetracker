@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import SwapOptions from "./SwapOptions";
-import { getRequest } from "@/libs/dbAccess";
+import { getRequests } from "@/libs/dbAccess";
 
 interface Request {
   firstShift_id: string;
@@ -22,7 +22,7 @@ const fakeSwapRequests = [
   ["Ryan", "Monday the 15th", "4pm - 10pm", "Tuesday the 16th", "9am - 3pm"],
 ];
 
-export default function SwapRequests() {
+export default function SwapRequests({ employeeId, requestData }: { employeeId: string, requestData: Request[]}) {
   const [modalState, setModalState] = useState(-1);
   const [requests, setRequests] = useState<Request[]>([]);
   const toggleModal = (shiftId: number) => {
@@ -31,18 +31,18 @@ export default function SwapRequests() {
   };
 
   useEffect(() => {
-    async function fetchShifts() {
+    async function fetchRequests() {
       try {
-        const shiftsData = await getRequest();
+        const requests = requestData;
         // the user "65fb91a6733b75969216cb2d" is being used for testing purposes
-        const userRequests = shiftsData.filter((request: Request) => request.requestee_id === "65fb91a6733b75969216cb2d");
+        const userRequests = requests.filter((request: Request) => request.requestee_id === employeeId);
 
         setRequests(userRequests);
       } catch (error) {
         console.error("Error fetching shifts:", error);
       }
     }
-    fetchShifts();
+    fetchRequests();
   }, []);
 
   return (
