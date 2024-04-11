@@ -22,8 +22,8 @@ export default function ShiftDataModal({
   employeeName: string;
 }) {
   return (
-      <div className=" flex flex-col text-white bg-blue-950 p-8">
-        <h1 className="text-lg font-bold underline">
+      <div className=" rounded-md flex flex-col text-white bg-blue-950 py-5 px-9 text-2xl">
+        <h1 className="font-bold underline mb-3">
           DATE: {new Date(shiftData.startDate).toLocaleDateString()}
         </h1>
         <p>
